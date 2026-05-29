@@ -20,57 +20,103 @@ export default function FacultyPage() {
       </section>
 
       {/* LEAD FACULTY */}
-      <section className="section">
-        <div className="container">
-          <span className="section-label">Lead Faculty</span>
-          <h2 style={{ marginBottom: "3rem" }}>Shraddha Gadit</h2>
-          <div className="faculty-highlight">
-            <div
-  className="faculty-avatar"
-  style={{
-    width: 220,
-    height: 220,
-    flexShrink: 0,
-    position: "relative",
-    overflow: "hidden",
-  }}
->
-  <Image
-    src="/images/faculty/shraddha-gadit.jpg"
-    alt="Shraddha Gadit"
-    fill
-    style={{
-      objectFit: "cover",
-    }}
-    priority
-  />
-</div>
-            <div>
-              <div className="faculty-name">Shraddha Gadit</div>
-              <div className="faculty-role">Founder & Education Lead, KPF</div>
-              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gray)", marginBottom: "1.5rem" }}>
-                Gold Medalist · MSc Food Science & Nutrition · 17+ Years in Fitness Education
-              </div>
-              <p className="faculty-bio" style={{ marginBottom: "1rem" }}>
-                Shraddha Gadit is the academic architect behind KPF. With over 17 years of experience spanning academic institutions, corporate fitness education, and professional certification programs, she has designed and delivered curriculum for thousands of fitness professionals across India.
-              </p>
-              <p className="faculty-bio" style={{ marginBottom: "1rem" }}>
-                A former Department Head and Nutrition Lecturer, Shraddha has led education programs at some of India&apos;s most established fitness brands. Her teaching philosophy is built on three pillars: scientific accuracy, practical application, and professional integrity.
-              </p>
-              <p className="faculty-bio" style={{ marginBottom: "1rem" }}>
-                At KPF, Shraddha&apos;s role extends beyond instruction. She has designed the curriculum framework, established assessment standards, and created a faculty-led model that ensures every student is developed — not just taught.
-              </p>
-              <p className="faculty-bio" style={{ marginBottom: "2rem" }}>
-                She is an accomplished Dietician, and has been featured across industry platforms for her contributions to structured, science-driven fitness learning.
-              </p>
-              <blockquote style={{ borderLeft: "2px solid var(--neon)", paddingLeft: "1.5rem", color: "var(--neon)", fontStyle: "italic", fontSize: "1.05rem", marginBottom: "2rem" }}>
-                &ldquo;If you want to change the industry, start by changing how you educate.&rdquo;
-              </blockquote>
-              <Link href="/contact" className="btn-gold">Book Academic Counselling →</Link>
-            </div>
-          </div>
+<section className="section">
+  <div className="container">
+
+    <span className="section-label">Lead Faculty</span>
+
+    <h2 style={{ marginBottom: "3rem" }}>
+      Shraddha Gadit
+    </h2>
+
+    <div className="faculty-highlight">
+
+      {/* IMAGE */}
+      <div
+        className="faculty-avatar"
+        style={{
+          width: 320,
+          height: 420,
+          flexShrink: 0,
+          position: "relative",
+          overflow: "hidden",
+          borderRadius: "16px",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
+          border: "1px solid rgba(212,196,106,0.25)",
+        }}
+      >
+        <Image
+          src="/images/faculty/shraddha-gadit.jpg"
+          alt="Shraddha Gadit"
+          fill
+          priority
+          style={{
+            objectFit: "cover",
+            objectPosition: "center 15%",
+          }}
+        />
+      </div>
+
+      {/* CONTENT */}
+      <div>
+
+        <div className="faculty-name">
+          Shraddha Gadit
         </div>
-      </section>
+
+        <div className="faculty-role">
+          Founder & Education Lead, KPF
+        </div>
+
+        <div
+          style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: "0.78rem",
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "var(--gray)",
+            marginBottom: "1.5rem",
+          }}
+        >
+          Gold Medalist · MSc Food Science & Nutrition · 17+ Years in Fitness Education
+        </div>
+
+        <p className="faculty-bio">
+          Shraddha Gadit is the academic architect behind KPF. With over 17 years of experience spanning academic institutions, corporate fitness education, and professional certification programs.
+        </p>
+
+        <p className="faculty-bio">
+          She has led education programs across India and designed structured learning systems for fitness professionals.
+        </p>
+
+        <p className="faculty-bio" style={{ marginBottom: "2rem" }}>
+          Her philosophy is built on scientific accuracy, practical application, and professional integrity.
+        </p>
+
+        <blockquote
+          style={{
+            borderLeft: "2px solid var(--neon)",
+            paddingLeft: "1.5rem",
+            color: "var(--neon)",
+            fontStyle: "italic",
+            fontSize: "1.05rem",
+            marginBottom: "2rem",
+          }}
+        >
+          “If you want to change the industry, start by changing how you educate.”
+        </blockquote>
+
+        <Link href="/contact" className="btn-gold">
+          Book Academic Counselling →
+        </Link>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
       {/* TEACHING PHILOSOPHY */}
       <section className="section section-dark">
