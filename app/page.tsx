@@ -278,7 +278,7 @@ export default function HomePage() {
       {/* IMAGE SIDE */}
       <div className="facultyImageWrap">
         <Image
-          src="/images/Faculty/shraddha-gadit.jpg"
+          src="/images/faculty/shraddha-gadit.jpg"
           alt="Shraddha Gadit"
           fill
           priority
