@@ -1,3 +1,4 @@
+console.log("🔥 LEAD API HIT - PRODUCTION VERSION");
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import LeadConfirmation from "../../../emails/LeadConfirmation";
