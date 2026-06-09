@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     if (payload.email) {
       try {
         await resend.emails.send({
-          from:    "KPF Academy <onboarding@resend.dev>",
+          from:    "KPF Academy <admin@kineticprofitness.com>",
           to:      payload.email,
           subject: "KPF Academy — Enquiry Received",
           react:   LeadConfirmation({ name: payload.name }),
