@@ -442,7 +442,7 @@
 
     padding: 10px calc(50vw - 44vw) 20px;
 
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: none;
     scroll-padding-left: calc(50vw - 44vw);
 -webkit-overflow-scrolling: touch;
 scroll-behavior: smooth;
@@ -459,7 +459,7 @@ touch-action: pan-x;
     max-width: 88vw;
 
     flex-shrink: 0;
-    scroll-snap-align: center;
+    
   }
 
   .cardHead {
