@@ -69,21 +69,48 @@ export default function AboutPage() {
             <h2 style={{ marginBottom: "1rem" }}>How KPF Teaches.</h2>
             <p style={{ color: "var(--gray)" }}>Education at KPF is built on five core principles.</p>
           </div>
-          <div className="pillars-grid">
-            {[
-              { num: "01", title: "Science, Not Trends", desc: "Every concept we teach is grounded in evidence-based research. We don't follow influencer opinion. We follow the science." },
-              { num: "02", title: "Application Over Theory", desc: "Understanding a concept is one thing. Applying it to a real client in a real session is another. KPF programs are designed to make you capable, not just informed." },
-              { num: "03", title: "Mentorship, Not Just Instruction", desc: "Our faculty doesn't just deliver lectures. They guide, assess, and support you — building your professional identity alongside your technical skill." },
-              { num: "04", title: "Communication as a Core Skill", desc: "A great trainer isn't just someone who knows what to prescribe. It's someone who can explain, listen, adapt, and build trust. KPF trains this explicitly." },
-              { num: "05", title: "Continuous Learning as a Standard", desc: "Graduation is not the end. KPF encourages and facilitates ongoing learning through workshops, masterclasses, and continued faculty access." },
-            ].map((p) => (
-              <div key={p.num} className="pillar-card">
-                <div className="pillar-num">{p.num}</div>
-                <h4>{p.title}</h4>
-                <p>{p.desc}</p>
-              </div>
-            ))}
-          </div>
+          <div className="philosophy-stack">
+
+  {[
+    {
+      num: "01",
+      title: "Science, Not Trends",
+      desc: "Every concept we teach is grounded in evidence-based research. We don't follow influencer opinion. We follow the science."
+    },
+    {
+      num: "02",
+      title: "Application Over Theory",
+      desc: "Understanding a concept is one thing. Applying it to a real client in a real session is another. KPF programs are designed to make you capable, not just informed."
+    },
+    {
+      num: "03",
+      title: "Mentorship, Not Just Instruction",
+      desc: "Our faculty doesn't just deliver lectures. They guide, assess, and support you — building your professional identity alongside your technical skill."
+    },
+    {
+      num: "04",
+      title: "Communication as a Core Skill",
+      desc: "A great trainer isn't just someone who knows what to prescribe. It's someone who can explain, listen, adapt, and build trust. KPF trains this explicitly."
+    },
+    {
+      num: "05",
+      title: "Continuous Learning as a Standard",
+      desc: "Graduation is not the end. KPF encourages and facilitates ongoing learning through workshops, masterclasses, and continued faculty access."
+    },
+  ].map((p) => (
+    <div key={p.num} className="philosophy-card">
+
+      <div className="philosophy-num">{p.num}</div>
+
+      <div className="philosophy-content">
+        <h3>{p.title}</h3>
+        <p>{p.desc}</p>
+      </div>
+
+    </div>
+  ))}
+
+</div>
           <div style={{ textAlign: "center", marginTop: "3rem" }}>
             <Link href="/programs" className="btn-outline">View Programs →</Link>
           </div>
