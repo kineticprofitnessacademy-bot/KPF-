@@ -1863,3 +1863,40 @@ input, select, textarea, button { max-width: 100%; box-sizing: border-box; }
     grid-template-columns: 1fr;
   }
 }
+/* ===============================
+   LEARNING FORMATS MOBILE FIX
+================================ */
+
+@media (max-width: 768px) {
+
+  .format-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .format-card {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    min-height: auto;
+  }
+
+  .format-icon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .format-name {
+    white-space: nowrap;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .format-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+}
