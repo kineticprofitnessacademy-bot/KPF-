@@ -7,7 +7,7 @@
   background: #06060E;
   padding: 5rem 0 5.5rem;
   border-bottom: 1px solid rgba(212,196,106,0.07);
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
@@ -440,13 +440,8 @@
 
     gap: 18px;
 
-    padding: 10px calc(50vw - 44vw) 20px;
+    padding: 10px 20px 20px;
 
-    scroll-snap-type: none;
-    scroll-padding-left: calc(50vw - 44vw);
--webkit-overflow-scrolling: touch;
-scroll-behavior: smooth;
-touch-action: pan-x;
     scrollbar-width: none;
   }
 
@@ -455,11 +450,8 @@ touch-action: pan-x;
   }
 
   .card {
-    min-width: 88vw;
-    max-width: 88vw;
-
+    min-width: 85vw;
     flex-shrink: 0;
-    
   }
 
   .cardHead {
