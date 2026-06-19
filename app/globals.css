@@ -1900,3 +1900,15 @@ input, select, textarea, button { max-width: 100%; box-sizing: border-box; }
   }
 
 }
+.faculty-avatar{
+  position: relative;
+  width: 260px;
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.faculty-avatar img{
+  object-fit: cover;
+}

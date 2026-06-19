@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { programs } from "@/lib/data";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 interface Props { params: { slug: string } }
 
@@ -146,7 +147,14 @@ export default function ProgramDetailPage({ params }: Props) {
           <span className="section-label">Your Faculty</span>
           <h2 style={{ marginBottom: "3rem" }}>Who Teaches This Program.</h2>
           <div className="faculty-highlight">
-            <div className="faculty-avatar">👩‍🏫</div>
+            <div className="faculty-avatar">
+  <Image
+    src="/images/shraddha-gadit.jpg"
+    alt="Shraddha Gadit"
+    fill
+    style={{ objectFit: "cover" }}
+  />
+</div>
             <div>
               <div className="faculty-name">Shraddha Gadit</div>
               <div className="faculty-role">Lead Educator, KPF</div>

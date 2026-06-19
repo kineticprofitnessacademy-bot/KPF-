@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "About KPF — Education Beyond Certification",
@@ -149,7 +150,14 @@ export default function AboutPage() {
           <span className="section-label">Leadership</span>
           <h2 style={{ marginBottom: "3rem" }}>The Educator Behind KPF.</h2>
           <div className="faculty-highlight">
-            <div className="faculty-avatar">👩‍🏫</div>
+            <div className="faculty-avatar">
+  <Image
+    src="/images/shraddha-gadit.jpg"
+    alt="Shraddha Gadit"
+    fill
+    style={{ objectFit: "cover" }}
+  />
+</div>
             <div>
               <div className="faculty-name">Shraddha Gadit</div>
               <div className="faculty-role">Founder & Education Lead, KPF</div>
