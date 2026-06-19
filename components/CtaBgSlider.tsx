@@ -6,9 +6,8 @@ import Image from "next/image";
 import styles from "./CtaBgSlider.module.css";
 
 const BG_IMAGES = [
-  { src: "/images/hero-bg.jpg",              alt: "KPF Academy classroom" },
   { src: "/images/fitness-certification.png", alt: "Personal Training program" },
-  { src: "/images/nutrition-mastery.svg",    alt: "Sports Nutrition program" },
+  
 ];
 
 const INTERVAL = 4500;

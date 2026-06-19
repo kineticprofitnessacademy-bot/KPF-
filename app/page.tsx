@@ -278,15 +278,20 @@ export default function HomePage() {
       {/* IMAGE SIDE */}
       <div className="facultyImageWrap">
         <Image
-          src="/images/faculty/shraddha-gadit.jpg"
-          alt="Shraddha Gadit"
-          fill
-          priority
-          style={{
-            objectFit: "cover",
-            objectPosition: "center top",
-          }}
-        />
+  src="/images/faculty/shraddha-gadit.jpg"
+  alt="Shraddha Gadit"
+  fill
+  priority
+  style={{
+    objectFit: "cover",
+    objectPosition: "center 20%",
+  }}
+/>
+ <div className="facultyBadge">
+    <span>17+</span>
+    Years Experience
+  </div>
+  
       </div>
 
       {/* CONTENT SIDE */}
