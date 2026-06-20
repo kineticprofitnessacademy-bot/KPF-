@@ -1581,7 +1581,34 @@ h3 { font-size: clamp(1.2rem, 2vw, 2rem); }
 .page-sidebar-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
 .page-faculty-row  { gap: 2rem; padding: 1.6rem 0; border-bottom: 1px solid var(--border); align-items: start; }
 .form-row-grid     { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+/* ──────────────────────────────
+   MOBILE FIX
+────────────────────────────── */
 
+@media (max-width: 768px) {
+
+  .page-split-grid,
+  .page-two-col,
+  .page-sidebar-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .form-row-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+}
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+}
 /* ═══════════════════════════════════════════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════════════════════════════════════════ */
