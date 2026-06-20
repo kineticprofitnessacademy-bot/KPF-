@@ -16,7 +16,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-email": "^6.3.0",
-    "resend": "^6.12.4"
+    "resend": "^6.12.4",
+    "sharp": "^0.35.2"
   },
   "devDependencies": {
     "@types/node": "^20",
