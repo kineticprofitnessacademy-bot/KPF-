@@ -907,9 +907,29 @@
    here breaks the repetition pattern that runs through the page.
 ═══════════════════════════════════════════════════════════════════ */
 .expertiseSection {
+  position: relative;
+  overflow: hidden;
   background: var(--dark3);
   padding: clamp(4rem, 7vh, 6rem) 0;
   border-bottom: 1px solid var(--border);
+}
+
+.expertiseSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(212,196,106,.08),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(212,196,106,.06),
+      transparent 45%
+    );
+  pointer-events: none;
 }
 
 .expertiseCloud {
@@ -923,12 +943,20 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.9rem 1.4rem;
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: 999px;
-  transition: border-color 0.26s, transform 0.28s var(--ease-out), background 0.26s;
-  cursor: default;
+  animation: floatPill 6s ease-in-out infinite;
+}
+.expertisePill:nth-child(even){
+  animation-delay: 2s;
+}
+
+@keyframes floatPill {
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-8px);
+  }
 }
 .expertisePill:hover {
   border-color: rgba(212,196,106,0.32);
@@ -1327,7 +1355,33 @@
   overflow: hidden;
   text-align: center;
 }
-
+.beyondSection::before {
+  content: "LEGACY";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue';
+  font-size: 18vw;
+  letter-spacing: .15em;
+  color: rgba(212,196,106,.03);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.beyondSection::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    transparent,
+    rgba(212,196,106,.25),
+    transparent
+  );
+}
 .beyondInner {
   position: relative;
   max-width: 780px;
@@ -1357,38 +1411,80 @@
 /* Legacy points, now rendered as a quiet horizontal list closing
    this section rather than a separate full card-grid section. */
 .legacyList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem 0;
-  margin-top: 2.2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(212,196,106,0.1);
 }
+
 .legacyListItem {
+  position: relative;
+  overflow: hidden;
+
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
+
+  padding: 1rem 1.2rem;
+
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(212,196,106,0.08);
+  border-radius: 14px;
+
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--gray2);
-  padding: 0 1.1rem;
+  color: var(--white);
+
+  transition: all .35s ease;
 }
-.legacyListItem:not(:last-child) {
-  border-right: 1px solid rgba(255,255,255,0.08);
+
+.legacyListItem::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(212,196,106,0.08),
+      transparent
+    );
+
+  transform: translateX(-120%);
+  transition: transform .8s ease;
 }
+
+.legacyListItem:hover::before {
+  transform: translateX(120%);
+}
+
+.legacyListItem:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212,196,106,0.25);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35),
+    0 0 20px rgba(212,196,106,0.08);
+}
+
 .legacyListIcon {
-  font-size: 0.95rem;
-  filter: drop-shadow(0 0 6px rgba(212,196,106,0.18));
+  font-size: 1.1rem;
+  color: var(--gold);
+  flex-shrink: 0;
 }
-
 @media (max-width: 700px) {
-  .legacyList { flex-direction: column; gap: 0.9rem; }
-  .legacyListItem { border-right: none !important; padding: 0; }
-}
+  .legacyList {
+    grid-template-columns: 1fr;
+  }
 
+  .legacyListItem {
+    width: 100%;
+  }
+}
 /* ═══════════════════════════════════════════════════════════════════
    11. MEDIA
 
@@ -1697,5 +1793,39 @@
   .heroScrollLine,
   .ctaGlow {
     animation: none !important;
+  }
+}
+/* MOBILE OVERFLOW FIX */
+@media (max-width: 768px) {
+
+  .hero {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .heroContent {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .heroCta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .heroCta a,
+  .heroCta button {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .heroNameFirst,
+  .heroNameLast,
+  .heroTagline,
+  .heroTitles {
+    word-break: break-word;
   }
 }
