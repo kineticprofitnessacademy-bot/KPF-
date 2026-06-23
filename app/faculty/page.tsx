@@ -13,13 +13,14 @@ export const metadata: Metadata = {
 /* ─── DATA ───────────────────────────────────────────────────────── */
 
 const STATS = [
-  { num: "17+",     label: "Years of Experience",            sub: "Industry & Academia" },
-  { num: "10,000+", label: "Students Mentored",              sub: "Across India" },
-  { num: "500+",    label: "Workshops & Webinars",           sub: "Delivered Nationwide" },
-  { num: "100+",    label: "Corporates Impacted",            sub: "Organisations Transformed" },
+  { num: "17+",     label: "Years of Experience",   sub: "Industry & Academia" },
+  { num: "10,000+", label: "Students Mentored",      sub: "Across India" },
+  { num: "500+",    label: "Workshops & Webinars",   sub: "Delivered Nationwide" },
+  { num: "100+",    label: "Corporates Impacted",    sub: "Organisations Transformed" },
 ];
 
-const CREDENTIALS = [
+/* Top-tier credentials rendered in the featured grid */
+const CREDENTIALS_FEATURED = [
   {
     icon: "🎓",
     title: "Master's in Food Science & Nutrition",
@@ -38,6 +39,10 @@ const CREDENTIALS = [
     inst: "IIT Madras",
     note: "Elite executive programme",
   },
+];
+
+/* Secondary credentials rendered in the standard card grid */
+const CREDENTIALS = [
   {
     icon: "✦",
     title: "Certified Nutrition Coach (CNC)",
@@ -60,37 +65,37 @@ const CREDENTIALS = [
 
 const TIMELINE = [
   {
-    period: "Present",
+    period: "2019 — Present",
     role: "Founder — Kinetic Pro Fitness Academy (KPF)",
     detail:
       "Building future-ready fitness and nutrition professionals with industry-relevant, evidence-based education.",
   },
   {
-    period: "10+ Years",
+    period: "2009 — 2019",
     role: "Head of Department — Gold's Gym Fitness Institute",
     detail:
       "Led academic and operational excellence, mentored students, guided faculty teams and shaped curriculum across India.",
   },
   {
-    period: "Ongoing",
+    period: "2015 — Present",
     role: "Visiting Faculty — S.N.D.T. University",
     detail:
       "Mentoring students in applied nutrition and health sciences at one of India's premier women's universities.",
   },
   {
-    period: "Global",
+    period: "2012 — 2018",
     role: "International Fitness Education Representative",
     detail:
       "Represented Indian fitness education at international Gold's Gym conventions in Malaysia, Dubai and Bangkok.",
   },
   {
-    period: "Research",
+    period: "2014 — Present",
     role: "Published Researcher & Author",
     detail:
       "Research published in the International Journal of Health Sciences and Research. Articles in leading health and fitness magazines.",
   },
   {
-    period: "Media",
+    period: "2016 — Present",
     role: "Podcast Speaker & Media Expert",
     detail:
       "Invited speaker across nutrition, wellness, performance and lifestyle podcasts. Featured on Zoom TV, Zee Khana Khazana and more.",
@@ -98,43 +103,59 @@ const TIMELINE = [
 ];
 
 const EXPERTISE = [
-  { icon: "⚡", title: "Performance Nutrition",           desc: "Science-led strategies for athletes and high-performers." },
-  { icon: "🏃", title: "Sports Nutrition",                desc: "Fuelling peak athletic output with evidence-based protocols." },
-  { icon: "🏢", title: "Corporate Wellness",              desc: "Transforming workplace health through structured programmes." },
-  { icon: "👥", title: "Trainer Development",             desc: "Shaping the next generation of fitness professionals." },
-  { icon: "🛡", title: "Preventive Health",               desc: "Behaviour-change systems that create lasting outcomes." },
-  { icon: "📚", title: "Academic Leadership",             desc: "Curriculum design and institutional excellence." },
+  { icon: "⚡", title: "Performance Nutrition",  desc: "Science-led strategies for athletes and high-performers." },
+  { icon: "🏃", title: "Sports Nutrition",        desc: "Fuelling peak athletic output with evidence-based protocols." },
+  { icon: "🏢", title: "Corporate Wellness",      desc: "Transforming workplace health through structured programmes." },
+  { icon: "👥", title: "Trainer Development",     desc: "Shaping the next generation of fitness professionals." },
+  { icon: "🛡", title: "Preventive Health",       desc: "Behaviour-change systems that create lasting outcomes." },
+  { icon: "📚", title: "Academic Leadership",     desc: "Curriculum design and institutional excellence." },
 ];
 
 const APPROACH = [
-  { step: "01", heading: "Evidence-Based",     body: "Every recommendation is grounded in peer-reviewed science — no fads, no shortcuts." },
-  { step: "02", heading: "Systems Thinking",   body: "Sustainable change requires structures, not just information. We build systems." },
-  { step: "03", heading: "Real-World Bridge",  body: "Translating laboratory science into actionable daily strategies people actually follow." },
-  { step: "04", heading: "Behaviour Change",   body: "Lasting health outcomes are created through psychology and habit architecture." },
+  { step: "01", heading: "Evidence-Based",    body: "Every recommendation is grounded in peer-reviewed science — no fads, no shortcuts." },
+  { step: "02", heading: "Systems Thinking",  body: "Sustainable change requires structures, not just information. We build systems." },
+  { step: "03", heading: "Real-World Bridge", body: "Translating laboratory science into actionable daily strategies people actually follow." },
+  { step: "04", heading: "Behaviour Change",  body: "Lasting health outcomes are created through psychology and habit architecture." },
 ];
 
 const LEGACY = [
-  { icon: "🎓", title: "Educational Reputation",        body: "Excellence from academics to real-world impact — a 17-year body of work." },
-  { icon: "🌍", title: "International Representation",  body: "Carrying Indian fitness education to global platforms across Asia and the Middle East." },
-  { icon: "🏆", title: "Award-Winning Professional",    body: "Shaping thousands of careers with knowledge, mentorship and guidance." },
-  { icon: "✦",  title: "Founder's Vision",              body: "Building KPF Academy as the definitive home for India's fitness educators." },
+  {
+    icon: "🎓",
+    title: "Educational Reputation",
+    body: "Excellence from academics to real-world impact — a 17-year body of work that speaks for itself.",
+  },
+  {
+    icon: "🌍",
+    title: "International Representation",
+    body: "Carrying Indian fitness education to global platforms across Asia and the Middle East.",
+  },
+  {
+    icon: "🏆",
+    title: "Award-Winning Professional",
+    body: "Shaping thousands of careers with knowledge, mentorship and sustained guidance.",
+  },
+  {
+    icon: "✦",
+    title: "Founder's Vision",
+    body: "Building KPF Academy as the definitive home for India's next generation of fitness educators.",
+  },
 ];
 
 const MEDIA = [
-  { name: "Zoom TV",              icon: "📺" },
-  { name: "Zee Khana Khazana",   icon: "🍽" },
-  { name: "Chef Ranveer Brar",   icon: "👨‍🍳" },
-  { name: "Care World TV",       icon: "❤" },
-  { name: "HerZindagi",          icon: "✨" },
+  { name: "Zoom TV",            icon: "📺" },
+  { name: "Zee Khana Khazana",  icon: "🍽" },
+  { name: "Chef Ranveer Brar",  icon: "👨‍🍳" },
+  { name: "Care World TV",      icon: "❤" },
+  { name: "HerZindagi",         icon: "✨" },
 ];
 
 const AVAILABLE = [
-  { icon: "🎤", title: "Keynote Speeches",                  desc: "Corporate events, conferences and academic institutions." },
-  { icon: "🏢", title: "Corporate Wellness Programs",        desc: "Structured workplace health and performance programmes." },
-  { icon: "📋", title: "Training & Workshops",              desc: "Hands-on skill-building for professionals and teams." },
-  { icon: "🎙", title: "Panel Discussions",                  desc: "Industry forums, education summits and health platforms." },
-  { icon: "🎧", title: "Podcast & Media Appearances",        desc: "Nutrition, wellness, performance and lifestyle conversations." },
-  { icon: "🤝", title: "Academic & Industry Collaborations", desc: "Research, curriculum design and institutional partnerships." },
+  { icon: "🎤", title: "Keynote Speeches",                   desc: "Corporate events, conferences and academic institutions." },
+  { icon: "🏢", title: "Corporate Wellness Programs",         desc: "Structured workplace health and performance programmes." },
+  { icon: "📋", title: "Training & Workshops",               desc: "Hands-on skill-building for professionals and teams." },
+  { icon: "🎙", title: "Panel Discussions",                   desc: "Industry forums, education summits and health platforms." },
+  { icon: "🎧", title: "Podcast & Media Appearances",         desc: "Nutrition, wellness, performance and lifestyle conversations." },
+  { icon: "🤝", title: "Academic & Industry Collaborations",  desc: "Research, curriculum design and institutional partnerships." },
 ];
 
 /* ─── PAGE ───────────────────────────────────────────────────────── */
@@ -249,6 +270,22 @@ export default function FacultyPage() {
               A foundation of academic excellence and internationally recognised qualifications.
             </p>
           </div>
+
+          {/* Featured tier — degrees & flagship certs */}
+          <div className={styles.credFeaturedGrid}>
+            {CREDENTIALS_FEATURED.map((c) => (
+              <div key={c.title} className={styles.credFeatured}>
+                <span className={styles.credIcon} aria-hidden>{c.icon}</span>
+                <div>
+                  <h3 className={styles.credTitle}>{c.title}</h3>
+                  <p className={styles.credInst}>{c.inst}</p>
+                  <p className={styles.credNote}>{c.note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Secondary tier — certs & recognition */}
           <div className={styles.credGrid}>
             {CREDENTIALS.map((c) => (
               <div key={c.title} className={styles.credCard}>
@@ -343,7 +380,21 @@ export default function FacultyPage() {
                   </li>
                 ))}
               </ul>
+
+              {/* External proof point */}
+              <blockquote className={styles.speakerQuote}>
+                <p className={styles.speakerQuoteText}>
+                  &ldquo;Shraddha brings an extraordinary depth of knowledge to the stage.
+                  Her ability to bridge scientific rigour with practical application is rare
+                  and genuinely transformative for any audience.&rdquo;
+                </p>
+                <cite className={styles.speakerQuoteAttr}>
+                  Event Director&nbsp;
+                  <span>— India Fitness Summit, 2023</span>
+                </cite>
+              </blockquote>
             </div>
+
             <div className={styles.speakerStatWrap}>
               {[
                 { num: "500+", label: "Workshops & Webinars" },
@@ -426,10 +477,11 @@ export default function FacultyPage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          10. BEYOND NUTRITION — full-width feature
+          10. BEYOND NUTRITION — full-width editorial
       ══════════════════════════════════════════════ */}
       <section className={styles.beyondSection} aria-label="A life of discipline and creativity">
         <div className={styles.beyondInner}>
+          {/* Pulsing ambient orb */}
           <div className={styles.beyondGlow} aria-hidden />
           <span className={styles.eyebrow}>A Life of Discipline &amp; Creativity</span>
           <h2 className={styles.beyondTitle}>

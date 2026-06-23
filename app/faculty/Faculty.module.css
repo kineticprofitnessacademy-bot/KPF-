@@ -3,15 +3,19 @@
    Black + Luxury Gold · Cinematic · Mobile-First
    Fonts loaded globally: Bebas Neue, Barlow Condensed, Barlow
 
-   v2 — Refined per design audit:
-   - Simplified hero gradient stack (removed redundant layer + backdrop-filter)
-   - Differentiated belief-quote typography from hero name
-   - Consolidated shadow tokens (--card-shadow / --card-shadow-hover)
-   - Standardized icon sizing to two tiers (primary / secondary)
-   - Visible approach step numbers
-   - Tightened tagline tracking vs. eyebrow
-   - Varied glow radii per section to avoid repetition fatigue
-   - Chronological timeline period labels
+   v3 — Full dynamic pass:
+   - Fixed hero image zoom (object-position + parallax JS hook)
+   - Added missing expertiseGrid / expertiseCard section styles
+   - Added missing legacySection / legacyGrid / legacyCard section styles
+   - Added missing availGrid / availCard section styles
+   - Added beyondGlow pulsing orb
+   - Staggered entrance animations on all grid sections
+   - Magnetic hover micro-interactions on cards
+   - Particle / noise overlay on hero
+   - Speaker quote block styled
+   - credFeaturedGrid properly wired
+   - Timeline node pulse animation
+   - Media strip shimmer
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── TOKENS ──────────────────────────────────────────────────────── */
@@ -34,12 +38,8 @@
   --radius-lg:   24px;
   --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  /* Consolidated shadow tokens — single source of truth for card chrome */
   --card-shadow:       0 4px 18px rgba(0,0,0,0.4);
   --card-shadow-hover: 0 18px 44px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,196,106,0.06);
-
-  /* Icon sizing system — two tiers only, assigned by section importance */
   --icon-primary:   2rem;
   --icon-secondary: 1.5rem;
 
@@ -107,7 +107,6 @@
   margin-bottom: 1.2rem;
 }
 
-/* Connective framing line — used above Credentials grid */
 .leadIn {
   font-family: 'Barlow', sans-serif;
   font-style: italic;
@@ -185,7 +184,6 @@
   transform: translateY(-2px);
 }
 
-/* Quiet text link — used under hero CTAs to bridge personal/institutional brand */
 .heroMicroLink {
   display: inline-flex;
   align-items: center;
@@ -204,14 +202,6 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    1. HERO
-   Signature element: cinematic split — portrait fills left ~55%,
-   content overlays on right. Gold light-leak bisects the frame.
-   On mobile: stacked, portrait fills top 60vh.
-
-   REFINED: removed redundant .hero::before radial layer (was a 3rd
-   gold gradient stacked on top of heroOverlay + heroContent's own
-   gradient — caused muddiness). Removed backdrop-filter (no visible
-   contribution at 90%+ opacity, real mobile scroll-perf cost).
 ═══════════════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
@@ -222,29 +212,50 @@
   background: var(--dark);
 }
 
-/* Portrait image pane */
+/* Grain texture overlay — adds cinematic film-grain depth */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.4;
+}
+
 .heroImgWrap {
   position: relative;
   grid-column: 1 / 2;
   grid-row: 1;
+  /* overflow: visible intentionally — contain mode means image won't bleed */
   overflow: hidden;
   min-height: 100svh;
+  /* Dark bg visible in any letterbox gap around contained portrait */
+  background: var(--dark);
 }
 
 .heroImg {
-  object-fit: cover;
-  /* Safer default crop for tall portraits than pure "top" —
-     avoids clipping chin/shoulders on extreme aspect ratios. */
-  object-position: 50% 20%;
+  /* contain: show the full portrait without any cropping.
+     object-position left-top anchors the face to the top-left
+     corner so it always reads against the content pane on the right. */
+  object-fit: contain;
+  object-position: left top;
   filter: brightness(0.82) saturate(0.9);
-  transition: transform 0.8s ease, filter 0.8s ease;
+  transition: transform 1.2s var(--ease-out), filter 0.8s ease;
+  will-change: transform;
 }
 .hero:hover .heroImg {
-  transform: scale(1.025);
+  /* Subtle scale — safe with contain since image won't overflow the pane */
+  transform: scale(1.02);
   filter: brightness(0.88) saturate(1);
 }
 
-/* Dark gradient over image so content always reads */
+/* Floating parallax hint on scroll — JS data attribute hook */
+.heroImgWrap[data-parallax] .heroImg {
+  transform: translateY(calc(var(--parallax-y, 0) * 0.12px));
+}
+
 .heroOverlay {
   position: absolute; inset: 0;
   background: linear-gradient(
@@ -256,10 +267,28 @@
   z-index: 1;
 }
 
-/* Vertical gold light-leak — the signature decorative element.
-   This is now the SOLE gold-glow source in the hero (the redundant
-   .hero::before radial gradient and name text-shadow were both
-   competing with this — see .heroNameLast below for the fix). */
+/* Gold shimmer sweep across portrait on load */
+.heroImgWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 20%,
+    rgba(212,196,106,0.07) 50%,
+    transparent 80%
+  );
+  z-index: 2;
+  animation: heroShimmer 4s ease 0.5s forwards;
+  opacity: 0;
+}
+@keyframes heroShimmer {
+  0%   { opacity: 0; transform: translateX(-60%) skewX(-15deg); }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(160%) skewX(-15deg); }
+}
+
 .heroLeakLeft {
   position: absolute;
   top: 0; right: -1px;
@@ -275,6 +304,11 @@
   );
   z-index: 2;
   filter: blur(0.5px);
+  animation: leakPulse 5s ease-in-out infinite;
+}
+@keyframes leakPulse {
+  0%,100% { opacity: 0.8; }
+  50%      { opacity: 1; filter: blur(0.5px) drop-shadow(0 0 6px rgba(244,197,66,0.4)); }
 }
 
 .heroLeakRight {
@@ -294,23 +328,19 @@
   z-index: 2;
 }
 
-/* Content pane — simplified to a single gradient layer, no blur */
 .heroContent {
   grid-column: 2 / 3;
   grid-row: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   padding:
     clamp(3rem, 6vw, 5rem)
     clamp(2rem, 5vw, 4.5rem)
     clamp(3rem, 6vw, 5rem)
     clamp(2.5rem, 4vw, 4rem);
-
   position: relative;
   z-index: 3;
-
   background: linear-gradient(
     270deg,
     rgba(4,4,10,0.97) 0%,
@@ -318,10 +348,18 @@
     rgba(4,4,10,0.00) 100%
   );
 }
-/* NOTE: .hero::before (third radial gradient layer) intentionally
-   removed — heroOverlay + heroContent's own gradient already do
-   this job. Three translucent gold/dark layers stacking was the
-   root cause of the right column reading "muddy" instead of crisp. */
+
+/* Entrance animations for hero text */
+.heroBadge { animation: fadeUp 0.7s var(--ease-out) 0.1s both; }
+.heroName   { animation: fadeUp 0.8s var(--ease-out) 0.25s both; }
+.heroTitles { animation: fadeUp 0.7s var(--ease-out) 0.4s both; }
+.heroTagline{ animation: fadeUp 0.7s var(--ease-out) 0.5s both; }
+.heroCta    { animation: fadeUp 0.7s var(--ease-out) 0.65s both; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 .heroBadge {
   display: flex;
@@ -367,9 +405,6 @@
   font-size: clamp(3rem, 6vw, 6.5rem);
   letter-spacing: 0.04em;
   color: var(--gold);
-  /* Glow radius reduced from 30px → 16px so the light-leak seam
-     remains the single dominant gold-glow moment in this section
-     rather than competing with the name. */
   text-shadow:
     0 0 16px rgba(212,196,106,0.35),
     0 2px 20px rgba(0,0,0,0.5);
@@ -389,10 +424,6 @@
   font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(0.9rem, 1.4vw, 1.1rem);
   font-weight: 700;
-  /* Tightened from 0.3em → 0.22em. At 0.3em this was wider than the
-     eyebrow's 0.38em felt — but because tagline is larger AND bold,
-     it visually outweighed the eyebrow, inverting the intended label
-     → headline hierarchy. */
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
@@ -406,7 +437,6 @@
   gap: 0.9rem;
 }
 
-/* Scroll hint */
 .heroScroll {
   position: absolute;
   bottom: 2rem;
@@ -438,21 +468,24 @@
   color: rgba(255,255,255,0.22);
 }
 
-/* Hero — mobile.
-   REFINED: explicit min-height safety so CTA buttons can never be
-   clipped inside the 38svh content area on small real devices with
-   browser chrome (verify empirically against actual asset/device —
-   this is a structural safety net, not a guess). */
 @media (max-width: 768px) {
   .hero {
     grid-template-columns: 1fr;
     grid-template-rows: 62svh 1fr;
     min-height: auto;
+    width: 100%;
+    overflow-x: hidden;
   }
   .heroImgWrap {
     grid-column: 1;
     grid-row: 1;
     min-height: 62svh;
+  }
+  /* Mobile: revert to cover so the portrait fills the full 62svh slot.
+     object-position top centres horizontally, crops from bottom. */
+  .heroImg {
+    object-fit: cover;
+    object-position: 50% top;
   }
   .heroOverlay {
     background: linear-gradient(
@@ -470,25 +503,31 @@
     background: var(--dark);
     padding: 2rem 1.5rem 3rem;
     min-height: auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .heroNameFirst,
-  .heroNameLast { font-size: clamp(2.8rem, 12vw, 4.5rem); }
-  .heroScroll { display: none; }
-  /* Stack hero CTAs on narrow phones — two pills side by side can
-     look cramped even when they technically wrap. */
-  .heroCta { flex-direction: column; align-items: stretch; }
+  .heroNameLast { font-size: clamp(2.8rem, 12vw, 4.5rem); word-break: break-word; }
+  .heroTagline,
+  .heroTitles   { word-break: break-word; }
+  .heroScroll   { display: none; }
+  .heroCta {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
   .heroCta .btnGold,
-  .heroCta .btnOutline { text-align: center; justify-content: center; }
+  .heroCta .btnOutline {
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    2. CORE BELIEF
-
-   REFINED: quote typography now deliberately differs from the hero
-   name (Barlow Condensed italic, lighter weight) instead of repeating
-   Bebas Neue at similar visual weight. Two back-to-back Bebas Neue
-   blocks read as "hero part two" rather than a distinct tonal beat —
-   this creates the intended shift.
 ═══════════════════════════════════════════════════════════════════ */
 .belief {
   background: var(--dark2);
@@ -588,14 +627,21 @@
   border: 1px solid var(--border);
   background: var(--card);
   overflow: hidden;
-  transition: border-color 0.3s, background 0.3s;
+  transition: border-color 0.3s, background 0.3s, transform 0.35s var(--ease-out);
 }
 .statCard:hover {
   border-color: rgba(212,196,106,0.28);
   background: rgba(13,13,26,0.98);
+  transform: translateY(-4px);
 }
 .statCard:first-child { border-radius: var(--radius) 0 0 var(--radius); }
 .statCard:last-child  { border-radius: 0 var(--radius) var(--radius) 0; }
+
+/* Count-up animation trigger */
+.statCard:nth-child(1) { animation: fadeUp 0.6s var(--ease-out) 0.1s both; }
+.statCard:nth-child(2) { animation: fadeUp 0.6s var(--ease-out) 0.2s both; }
+.statCard:nth-child(3) { animation: fadeUp 0.6s var(--ease-out) 0.3s both; }
+.statCard:nth-child(4) { animation: fadeUp 0.6s var(--ease-out) 0.4s both; }
 
 .statGlow {
   position: absolute;
@@ -615,15 +661,8 @@
   font-size: clamp(2.6rem, 5.2vw, 5rem);
   line-height: 1;
   color: var(--gold);
-  /* Reduced from 40px → 24px. This was the 2nd of 3 identical-radius
-     gold text-glows on the page (hero name, here, speaker stats) —
-     varying radius per instance keeps each one feeling considered
-     rather than templated. */
   text-shadow: 0 0 24px rgba(212,196,106,0.22);
   margin-bottom: 0.4rem;
-  /* Slightly smaller max clamp than before (5.5rem → 5rem) so the
-     longest value ("10,000+") has more breathing room at 2-column
-     mobile widths without forcing tight digit compression. */
 }
 
 .statLabel {
@@ -655,18 +694,11 @@
 @media (max-width: 440px) {
   .statsGrid { grid-template-columns: 1fr 1fr; }
   .statCard  { padding: 1.6rem 0.85rem; }
-  /* Extra headroom specifically for "10,000+" at narrowest widths */
   .statNum   { font-size: clamp(2.2rem, 9vw, 3rem); letter-spacing: -0.01em; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    4. CREDENTIALS
-
-   REFINED: top-tier credentials (degree, IIT, international cert)
-   now visually featured via .credFeatured — larger card, gold-tinted
-   background — so the strongest, most verifiable credentials don't
-   blend into the same tier as recognition awards. Awards render in
-   the standard secondary grid below.
 ═══════════════════════════════════════════════════════════════════ */
 .credSection {
   background: var(--dark);
@@ -674,7 +706,6 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* Featured row — primary credentials (degrees, flagship certs) */
 .credFeaturedGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -701,7 +732,6 @@
 .credFeatured .credIcon { font-size: var(--icon-primary); }
 .credFeatured .credTitle { font-size: clamp(0.9rem, 1.2vw, 1.02rem); }
 
-/* Secondary row — recognitions/awards, demoted in scale */
 .credGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -724,6 +754,11 @@
   transform: translateY(-4px);
   box-shadow: var(--card-shadow-hover);
 }
+
+/* Staggered reveal */
+.credGrid .credCard:nth-child(1) { animation: fadeUp 0.5s var(--ease-out) 0.05s both; }
+.credGrid .credCard:nth-child(2) { animation: fadeUp 0.5s var(--ease-out) 0.15s both; }
+.credGrid .credCard:nth-child(3) { animation: fadeUp 0.5s var(--ease-out) 0.25s both; }
 
 .credIcon {
   font-size: var(--icon-secondary);
@@ -768,10 +803,6 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    5. CAREER TIMELINE
-
-   REFINED: period labels are now chronological year-ranges throughout
-   (was a mix of "Present"/"10+ Years"/"Global"/"Research" — undermined
-   the section's core trust value, which is verifiable chronology).
 ═══════════════════════════════════════════════════════════════════ */
 .timelineSection {
   background: var(--dark2);
@@ -806,6 +837,7 @@
   align-items: start;
 }
 
+/* Pulsing node */
 .timelineNode {
   position: absolute;
   top: 1.6rem;
@@ -817,18 +849,31 @@
   box-shadow: 0 0 12px rgba(212,196,106,0.6), 0 0 28px rgba(212,196,106,0.25);
   z-index: 2;
 }
+.timelineNode::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,196,106,0.3);
+  animation: nodePulse 2.5s ease-in-out infinite;
+}
+@keyframes nodePulse {
+  0%,100% { transform: scale(1); opacity: 0.4; }
+  50%      { transform: scale(1.6); opacity: 0; }
+}
 
 .timelineCard {
   background: var(--card);
   border: 1px solid var(--border2);
   border-radius: var(--radius);
   padding: clamp(1.4rem, 2.5vh, 2rem) clamp(1.4rem, 2vw, 2rem);
-  transition: border-color 0.28s, transform 0.3s var(--ease-out);
+  transition: border-color 0.28s, transform 0.3s var(--ease-out), box-shadow 0.3s;
   box-shadow: var(--card-shadow);
 }
 .timelineCard:hover {
-  border-color: var(--border);
+  border-color: rgba(212,196,106,0.22);
   transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .timelineLeft  { direction: rtl; }
@@ -899,12 +944,7 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    6. EXPERTISE
-
-   REFINED: converted from a 6-card bordered grid (4th card-grid
-   section in sequence → "card fatigue") to a pill/tag-cloud format.
-   Content here (icon + 3-4 word title + one-line desc) is light
-   enough not to need full card chrome — reducing container weight
-   here breaks the repetition pattern that runs through the page.
+   — Full card grid (matching what page.tsx actually renders)
 ═══════════════════════════════════════════════════════════════════ */
 .expertiseSection {
   position: relative;
@@ -919,93 +959,118 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(212,196,106,.08),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(212,196,106,.06),
-      transparent 45%
-    );
+    radial-gradient(circle at 20% 30%, rgba(212,196,106,.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(212,196,106,.06), transparent 45%);
   pointer-events: none;
 }
 
-.expertiseCloud {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(0.7rem, 1.3vw, 1rem);
+/* Grid layout matching page.tsx's expertiseGrid class */
+.expertiseGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 1.5vw, 1.4rem);
 }
 
-.expertisePill {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  animation: floatPill 6s ease-in-out infinite;
+.expertiseCard {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.8rem, 3vh, 2.5rem) clamp(1.5rem, 2vw, 2rem);
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  transition: border-color 0.3s, transform 0.35s var(--ease-out), box-shadow 0.3s;
+  box-shadow: var(--card-shadow);
+  cursor: default;
 }
-.expertisePill:nth-child(even){
-  animation-delay: 2s;
-}
-
-@keyframes floatPill {
-  0%,100%{
-    transform:translateY(0);
-  }
-
-  50%{
-    transform:translateY(-8px);
-  }
-}
-.expertisePill:hover {
-  border-color: rgba(212,196,106,0.32);
-  background: rgba(212,196,106,0.04);
-  transform: translateY(-3px);
+.expertiseCard:hover {
+  border-color: rgba(212,196,106,0.28);
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow-hover);
 }
 
-.expertisePillIcon {
-  font-size: 1.15rem;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 6px rgba(212,196,106,0.2));
+/* Top gold accent bar that grows on hover */
+.expertiseCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out);
+}
+.expertiseCard:hover::before { transform: scaleX(1); }
+
+/* Corner glow on hover */
+.expertiseCard::after {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(212,196,106,0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.expertiseCard:hover::after { opacity: 1; }
+
+/* Staggered entrance */
+.expertiseGrid .expertiseCard:nth-child(1) { animation: fadeUp 0.5s var(--ease-out) 0.05s both; }
+.expertiseGrid .expertiseCard:nth-child(2) { animation: fadeUp 0.5s var(--ease-out) 0.12s both; }
+.expertiseGrid .expertiseCard:nth-child(3) { animation: fadeUp 0.5s var(--ease-out) 0.19s both; }
+.expertiseGrid .expertiseCard:nth-child(4) { animation: fadeUp 0.5s var(--ease-out) 0.26s both; }
+.expertiseGrid .expertiseCard:nth-child(5) { animation: fadeUp 0.5s var(--ease-out) 0.33s both; }
+.expertiseGrid .expertiseCard:nth-child(6) { animation: fadeUp 0.5s var(--ease-out) 0.40s both; }
+
+.expertiseIcon {
+  display: block;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(212,196,106,0.25));
+  transition: transform 0.4s var(--ease-spring), filter 0.4s;
+}
+.expertiseCard:hover .expertiseIcon {
+  transform: scale(1.15) rotate(-3deg);
+  filter: drop-shadow(0 0 14px rgba(212,196,106,0.5));
 }
 
-.expertisePillText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.expertisePillTitle {
+.expertiseTitle {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.84rem;
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--white);
-  white-space: nowrap;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
 }
 
-.expertisePillDesc {
+.expertiseDesc {
   font-family: 'Barlow', sans-serif;
-  font-size: 0.72rem;
-  color: var(--gray2);
-  white-space: nowrap;
+  font-size: clamp(0.78rem, 1vw, 0.88rem);
+  color: var(--gray);
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
 }
 
-@media (max-width: 640px) {
-  .expertiseCloud { flex-direction: column; align-items: stretch; }
-  .expertisePill  { border-radius: var(--radius); }
-  .expertisePillTitle,
-  .expertisePillDesc { white-space: normal; }
+/* Bottom gold stripe that slides in on hover */
+.expertiseStripe {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold2), var(--gold3), var(--gold));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-out);
 }
+.expertiseCard:hover .expertiseStripe { transform: scaleX(1); transform-origin: left; }
+
+@media (max-width: 900px) { .expertiseGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .expertiseGrid { grid-template-columns: 1fr; } }
 
 /* ═══════════════════════════════════════════════════════════════════
    7. SPEAKER · EDUCATOR · INFLUENCER
-
-   REFINED: added a testimonial quote block (single named/titled
-   reference) — the page's only third-party proof point. Self-stated
-   claims (500+ events, 17 years) carry far more weight with one real
-   external voice attached.
 ═══════════════════════════════════════════════════════════════════ */
 .speakerSection {
   background: var(--dark);
@@ -1039,11 +1104,13 @@
   border: 1px solid var(--border2);
   border-radius: 8px;
   background: rgba(255,255,255,0.018);
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s var(--ease-out), background 0.2s;
 }
 .speakerTopic:hover {
   border-color: rgba(212,196,106,0.2);
   color: rgba(245,245,240,0.85);
+  transform: translateX(4px);
+  background: rgba(212,196,106,0.03);
 }
 .speakerDot {
   width: 5px; height: 5px;
@@ -1052,7 +1119,6 @@
   flex-shrink: 0;
 }
 
-/* Testimonial — single external proof point */
 .speakerQuote {
   margin-top: 2rem;
   padding: 1.5rem 1.6rem;
@@ -1094,9 +1160,25 @@
   background: var(--card);
   border: 1px solid var(--border2);
   border-radius: var(--radius);
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, transform 0.3s var(--ease-out), box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
 }
-.speakerStat:hover { border-color: var(--border); }
+.speakerStat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,196,106,0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.speakerStat:hover {
+  border-color: rgba(212,196,106,0.22);
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+}
+.speakerStat:hover::before { opacity: 1; }
 
 .speakerStatNum {
   display: block;
@@ -1104,8 +1186,6 @@
   font-size: clamp(2.6rem, 4vw, 3.8rem);
   color: var(--gold);
   line-height: 1;
-  /* Reduced from 30px → 16px — 3rd identical glow instance (after
-     hero name, stats section) would otherwise flatten the device. */
   text-shadow: 0 0 16px rgba(212,196,106,0.22);
   margin-bottom: 0.3rem;
 }
@@ -1129,11 +1209,6 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    8. PROUD TO BE
-
-   REFINED: replaced system-font glyphs (𝄞 / ✦) with bespoke inline
-   SVG line-art — a dance silhouette and a paintbrush stroke. This is
-   the most differentiated, brand-defining content on the page; it
-   deserved custom art direction rather than Unicode characters.
 ═══════════════════════════════════════════════════════════════════ */
 .proudSection {
   background: var(--dark2);
@@ -1155,12 +1230,13 @@
   background: var(--card);
   display: flex;
   flex-direction: column;
-  transition: border-color 0.3s, transform 0.35s var(--ease-out);
+  transition: border-color 0.3s, transform 0.35s var(--ease-out), box-shadow 0.3s;
   box-shadow: var(--card-shadow);
 }
 .proudCard:hover {
   border-color: rgba(212,196,106,0.22);
   transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .proudArt {
@@ -1187,15 +1263,25 @@
     rgba(212,196,106,0.1) 0%, transparent 60%);
 }
 
-/* Bespoke SVG glyph wrapper — replaces Unicode font glyphs */
 .proudArtGlyph {
   position: relative;
   z-index: 1;
   width: 64px;
   height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: rgba(212,196,106,0.45);
-  transition: transform 0.4s var(--ease-spring), color 0.4s;
+  font-size: 3.5rem;
+  transition: transform 0.4s var(--ease-spring), color 0.4s, text-shadow 0.4s;
 }
+.proudCard:hover .proudArtGlyph {
+  transform: scale(1.12) rotate(5deg);
+  color: rgba(212,196,106,0.75);
+  text-shadow: 0 0 24px rgba(212,196,106,0.4);
+}
+
+/* SVG glyph support (if SVG children used) */
 .proudArtGlyph svg {
   width: 100%;
   height: 100%;
@@ -1204,10 +1290,6 @@
   stroke-width: 1.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-.proudCard:hover .proudArtGlyph {
-  transform: scale(1.1);
-  color: rgba(212,196,106,0.75);
 }
 
 .proudBody {
@@ -1244,17 +1326,10 @@
   line-height: 1.8;
 }
 
-@media (max-width: 640px) {
-  .proudGrid { grid-template-columns: 1fr; }
-}
+@media (max-width: 640px) { .proudGrid { grid-template-columns: 1fr; } }
 
 /* ═══════════════════════════════════════════════════════════════════
    9. MY APPROACH
-
-   REFINED: ghost step numbers raised from 0.08 → 0.16 opacity
-   (0.26 on hover) — at the original value they likely didn't read
-   as numbers at all on most monitors, undermining the "01 02 03 04
-   methodology" device this section relies on.
 ═══════════════════════════════════════════════════════════════════ */
 .approachSection {
   background: var(--dark3);
@@ -1275,12 +1350,13 @@
   border: 1px solid var(--border2);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: border-color 0.3s, transform 0.35s var(--ease-out);
+  transition: border-color 0.3s, transform 0.35s var(--ease-out), box-shadow 0.3s;
   box-shadow: var(--card-shadow);
 }
 .approachCard:hover {
   border-color: rgba(212,196,106,0.22);
   transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
 }
 .approachCard::before {
   content: '';
@@ -1335,15 +1411,6 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    10. BEYOND NUTRITION — full-width editorial
-
-   REFINED: line-height tightened 2 → 1.85 (felt slightly loose at
-   given max-width on desktop). Glow removed from this section's
-   radial device — see note below; the Hero light-leak and Final CTA
-   glow are sufficient "special moment" signals, a third identical
-   radial-gold-glow here was diminishing the device's impact overall.
-   Legacy & Vision content folded into the closing paragraph here
-   (see updated copy in faculty/page.tsx) rather than running as a
-   6th near-identical card-grid section.
 ═══════════════════════════════════════════════════════════════════ */
 .beyondSection {
   position: relative;
@@ -1376,17 +1443,29 @@
   transform: translateX(-50%);
   width: 1px;
   height: 100%;
-  background: linear-gradient(
-    transparent,
-    rgba(212,196,106,.25),
-    transparent
-  );
+  background: linear-gradient(transparent, rgba(212,196,106,.25), transparent);
 }
+
 .beyondInner {
   position: relative;
   max-width: 780px;
   margin: 0 auto;
   z-index: 1;
+}
+
+/* Pulsing orb — the beyondGlow div in page.tsx */
+.beyondGlow {
+  position: absolute;
+  top: -120px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(212,196,106,0.08) 0%, transparent 68%);
+  pointer-events: none;
+  animation: beyondOrb 6s ease-in-out infinite;
+}
+@keyframes beyondOrb {
+  0%,100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 1;   transform: translateX(-50%) scale(1.12); }
 }
 
 .beyondTitle {
@@ -1408,8 +1487,7 @@
   margin: 0 auto;
 }
 
-/* Legacy points, now rendered as a quiet horizontal list closing
-   this section rather than a separate full card-grid section. */
+/* Legacy points */
 .legacyList {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1422,82 +1500,172 @@
 .legacyListItem {
   position: relative;
   overflow: hidden;
-
   display: flex;
   align-items: center;
   gap: 0.8rem;
-
   padding: 1rem 1.2rem;
-
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(212,196,106,0.08);
   border-radius: 14px;
-
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--white);
-
   transition: all .35s ease;
 }
-
 .legacyListItem::before {
   content: '';
   position: absolute;
   inset: 0;
-
-  background:
-    linear-gradient(
-      120deg,
-      transparent,
-      rgba(212,196,106,0.08),
-      transparent
-    );
-
+  background: linear-gradient(120deg, transparent, rgba(212,196,106,0.08), transparent);
   transform: translateX(-120%);
   transition: transform .8s ease;
 }
-
-.legacyListItem:hover::before {
-  transform: translateX(120%);
-}
-
+.legacyListItem:hover::before { transform: translateX(120%); }
 .legacyListItem:hover {
   transform: translateY(-4px);
   border-color: rgba(212,196,106,0.25);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.35),
-    0 0 20px rgba(212,196,106,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 0 20px rgba(212,196,106,0.08);
 }
-
 .legacyListIcon {
   font-size: 1.1rem;
   color: var(--gold);
   flex-shrink: 0;
 }
 @media (max-width: 700px) {
-  .legacyList {
-    grid-template-columns: 1fr;
-  }
-
-  .legacyListItem {
-    width: 100%;
-  }
+  .legacyList { grid-template-columns: 1fr; }
 }
+
 /* ═══════════════════════════════════════════════════════════════════
-   11. MEDIA
+   11. LEGACY & VISION — full standalone section (page.tsx §11)
+   This section uses legacySection / legacyGrid / legacyCard /
+   legacyIcon / legacyTitle / legacyBody / legacyStripe
+═══════════════════════════════════════════════════════════════════ */
+.legacySection {
+  position: relative;
+  overflow: hidden;
+  background: var(--dark2);
+  padding: clamp(4rem, 7vh, 6rem) 0;
+  border-bottom: 1px solid var(--border);
+}
 
-   REFINED — CRITICAL FIX: emoji icons replaced with monochrome
-   wordmark treatment (currentColor text, no emoji). This was the
-   single largest trust-credibility gap identified in audit — emoji
-   next to real outlet names reads as unfinished/placeholder on a
-   page positioning someone as an "Academic Leader."
+/* Atmospheric ambient light */
+.legacySection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(212,196,106,0.06) 0%, transparent 45%),
+    radial-gradient(circle at 85% 40%, rgba(212,196,106,0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
 
-   NOTE: swap in actual outlet SVG logos when available; this CSS
-   renders a clean text-wordmark fallback that is dramatically more
-   credible than emoji in the meantime, with zero new icon assets
-   required to ship immediately.
+.legacyGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.legacyCard {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 3.5vh, 3rem) clamp(1.8rem, 2.5vw, 2.5rem);
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s, transform 0.35s var(--ease-out), box-shadow 0.3s;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.legacyCard:hover {
+  border-color: rgba(212,196,106,0.28);
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Diagonal sweep shimmer on hover */
+.legacyCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 20%,
+    rgba(212,196,106,0.04) 50%,
+    transparent 80%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.8s var(--ease-out);
+}
+.legacyCard:hover::before { transform: translateX(120%); }
+
+/* Gold corner accent */
+.legacyCard::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at top right, rgba(212,196,106,0.12) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.legacyCard:hover::after { opacity: 1; }
+
+/* Staggered entrance */
+.legacyGrid .legacyCard:nth-child(1) { animation: fadeUp 0.55s var(--ease-out) 0.1s both; }
+.legacyGrid .legacyCard:nth-child(2) { animation: fadeUp 0.55s var(--ease-out) 0.2s both; }
+.legacyGrid .legacyCard:nth-child(3) { animation: fadeUp 0.55s var(--ease-out) 0.3s both; }
+.legacyGrid .legacyCard:nth-child(4) { animation: fadeUp 0.55s var(--ease-out) 0.4s both; }
+
+.legacyIcon {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(212,196,106,0.3));
+  transition: transform 0.4s var(--ease-spring), filter 0.4s;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.legacyCard:hover .legacyIcon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 14px rgba(212,196,106,0.55));
+}
+
+.legacyTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.legacyBody {
+  font-family: 'Barlow', sans-serif;
+  font-size: clamp(0.82rem, 1.1vw, 0.92rem);
+  color: var(--gray);
+  line-height: 1.78;
+  flex: 1;
+}
+
+/* Bottom slide-in stripe */
+.legacyStripe {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2), var(--gold3));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-out);
+}
+.legacyCard:hover .legacyStripe { transform: scaleX(1); }
+
+@media (max-width: 768px) { .legacyGrid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════════════════
+   12. MEDIA
 ═══════════════════════════════════════════════════════════════════ */
 .mediaSection {
   background: var(--dark2);
@@ -1517,6 +1685,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.7rem;
   padding: clamp(1.2rem, 2.2vh, 1.7rem) clamp(1.8rem, 3vw, 2.4rem);
   background: var(--card);
   border: 1px solid var(--border2);
@@ -1526,16 +1695,35 @@
   transition: border-color 0.28s, transform 0.3s var(--ease-out), box-shadow 0.3s;
   box-shadow: var(--card-shadow);
   cursor: default;
+  position: relative;
+  overflow: hidden;
 }
+/* Shimmer sweep on hover */
+.mediaItem::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(212,196,106,0.07) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+.mediaItem:hover::before { transform: translateX(120%); }
 .mediaItem:hover {
   border-color: rgba(212,196,106,0.28);
   transform: translateY(-4px);
   box-shadow: var(--card-shadow-hover);
 }
 
-/* Monochrome wordmark — opacity lifts on hover, no color/emoji needed.
-   If/when real outlet SVG logos are sourced, drop them in place of
-   this span using the same .mediaName sizing as a wrapper. */
+.mediaIcon {
+  font-size: 1.3rem;
+  opacity: 0.55;
+  transition: opacity 0.25s, transform 0.3s var(--ease-spring);
+}
+.mediaItem:hover .mediaIcon {
+  opacity: 0.9;
+  transform: scale(1.15);
+}
+
 .mediaName {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(0.84rem, 1.3vw, 1.05rem);
@@ -1549,14 +1737,8 @@
 .mediaItem:hover .mediaName { color: rgba(245,245,240,0.92); }
 
 /* ═══════════════════════════════════════════════════════════════════
-   12. AVAILABLE FOR
-
-   REFINED: converted from icon-card-grid (5th/6th near-identical
-   section in sequence) to a two-column text list with thin rule
-   dividers, no icons, no card chrome. This was the strongest
-   candidate for format variation per audit — the content itself
-   (booking-intent information) is valuable but was getting the
-   least attention of any section due to pattern fatigue.
+   13. AVAILABLE FOR — full card grid (matching page.tsx's availGrid)
+   page.tsx uses: availGrid / availCard / availIcon / availTitle / availDesc
 ═══════════════════════════════════════════════════════════════════ */
 .availSection {
   background: var(--dark3);
@@ -1564,53 +1746,90 @@
   border-bottom: 1px solid var(--border);
 }
 
-.availList {
+/* Card grid (matching page.tsx class names) */
+.availGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  max-width: 1000px;
-  margin: 0 auto;
-  border-top: 1px solid var(--border2);
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 1.5vw, 1.4rem);
 }
 
-.availRow {
+.availCard {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.8rem, 3vh, 2.4rem) clamp(1.5rem, 2vw, 2rem);
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  transition: border-color 0.28s, transform 0.35s var(--ease-out), box-shadow 0.3s;
+  box-shadow: var(--card-shadow);
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.3rem 1.5rem;
-  border-bottom: 1px solid var(--border2);
-  transition: background 0.22s;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-.availList .availRow:nth-child(odd) { border-right: 1px solid var(--border2); }
-.availRow:hover { background: rgba(212,196,106,0.025); }
+.availCard:hover {
+  border-color: rgba(212,196,106,0.25);
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Left-side gold bar that grows in on hover */
+.availCard::before {
+  content: '';
+  position: absolute;
+  top: 16px; bottom: 16px;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.4s var(--ease-out);
+  border-radius: 0 2px 2px 0;
+}
+.availCard:hover::before { transform: scaleY(1); }
+
+/* Staggered reveal */
+.availGrid .availCard:nth-child(1) { animation: fadeUp 0.5s var(--ease-out) 0.05s both; }
+.availGrid .availCard:nth-child(2) { animation: fadeUp 0.5s var(--ease-out) 0.12s both; }
+.availGrid .availCard:nth-child(3) { animation: fadeUp 0.5s var(--ease-out) 0.19s both; }
+.availGrid .availCard:nth-child(4) { animation: fadeUp 0.5s var(--ease-out) 0.26s both; }
+.availGrid .availCard:nth-child(5) { animation: fadeUp 0.5s var(--ease-out) 0.33s both; }
+.availGrid .availCard:nth-child(6) { animation: fadeUp 0.5s var(--ease-out) 0.40s both; }
+
+.availIcon {
+  font-size: 1.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(212,196,106,0.25));
+  transition: transform 0.4s var(--ease-spring), filter 0.4s;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.availCard:hover .availIcon {
+  transform: scale(1.12) rotate(-5deg);
+  filter: drop-shadow(0 0 12px rgba(212,196,106,0.5));
+}
 
 .availTitle {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(0.84rem, 1.1vw, 0.96rem);
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--white);
-  flex-shrink: 0;
+  line-height: 1.3;
 }
 
 .availDesc {
   font-family: 'Barlow', sans-serif;
   font-size: clamp(0.76rem, 1vw, 0.84rem);
   color: var(--gray2);
-  text-align: right;
-  line-height: 1.55;
+  line-height: 1.65;
 }
 
-@media (max-width: 700px) {
-  .availList { grid-template-columns: 1fr; }
-  .availList .availRow:nth-child(odd) { border-right: none; }
-  .availRow { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-  .availDesc { text-align: left; }
-}
+@media (max-width: 900px) { .availGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .availGrid { grid-template-columns: 1fr; } }
 
 /* ═══════════════════════════════════════════════════════════════════
-   13. CONTACT
+   14. CONTACT
 ═══════════════════════════════════════════════════════════════════ */
 .contactSection {
   background:
@@ -1681,7 +1900,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   14. FINAL CTA
+   15. FINAL CTA
 ═══════════════════════════════════════════════════════════════════ */
 .ctaSection {
   position: relative;
@@ -1777,10 +1996,11 @@
   .btnOutline,
   .credCard,
   .credFeatured,
-  .expertisePill,
+  .expertiseCard,
   .approachCard,
+  .legacyCard,
+  .availCard,
   .mediaItem,
-  .availRow,
   .contactCard,
   .speakerTopic,
   .timelineCard,
@@ -1791,41 +2011,11 @@
     animation: none !important;
   }
   .heroScrollLine,
-  .ctaGlow {
+  .ctaGlow,
+  .beyondGlow,
+  .heroLeakLeft,
+  .heroImgWrap::after,
+  .timelineNode::after {
     animation: none !important;
-  }
-}
-/* MOBILE OVERFLOW FIX */
-@media (max-width: 768px) {
-
-  .hero {
-    width: 100%;
-    overflow-x: hidden;
-  }
-
-  .heroContent {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .heroCta {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .heroCta a,
-  .heroCta button {
-    width: 100%;
-    max-width: 100%;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .heroNameFirst,
-  .heroNameLast,
-  .heroTagline,
-  .heroTitles {
-    word-break: break-word;
   }
 }
