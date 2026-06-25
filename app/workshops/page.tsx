@@ -73,7 +73,6 @@ export default function WorkshopsPage() {
           </div>
         </div>
       </section>
-
       {/* ── WORKSHOP TOPICS ───────────────────────────────────────── */}
       <section className="section section-dark">
         <div className="container">

@@ -19,7 +19,6 @@ const STATS = [
   { num: "100+",    label: "Corporates Impacted",    sub: "Organisations Transformed" },
 ];
 
-/* Top-tier credentials rendered in the featured grid */
 const CREDENTIALS_FEATURED = [
   {
     icon: "🎓",
@@ -41,7 +40,6 @@ const CREDENTIALS_FEATURED = [
   },
 ];
 
-/* Secondary credentials rendered in the standard card grid */
 const CREDENTIALS = [
   {
     icon: "✦",
@@ -63,39 +61,34 @@ const CREDENTIALS = [
   },
 ];
 
+// ← periods removed from all items
 const TIMELINE = [
   {
-    period: "2019 — Present",
     role: "Founder — Kinetic Pro Fitness Academy (KPF)",
     detail:
       "Building future-ready fitness and nutrition professionals with industry-relevant, evidence-based education.",
   },
   {
-    period: "2009 — 2019",
     role: "Head of Department — Gold's Gym Fitness Institute",
     detail:
       "Led academic and operational excellence, mentored students, guided faculty teams and shaped curriculum across India.",
   },
   {
-    period: "2015 — Present",
     role: "Visiting Faculty — S.N.D.T. University",
     detail:
       "Mentoring students in applied nutrition and health sciences at one of India's premier women's universities.",
   },
   {
-    period: "2012 — 2018",
     role: "International Fitness Education Representative",
     detail:
       "Represented Indian fitness education at international Gold's Gym conventions in Malaysia, Dubai and Bangkok.",
   },
   {
-    period: "2014 — Present",
     role: "Published Researcher & Author",
     detail:
       "Research published in the International Journal of Health Sciences and Research. Articles in leading health and fitness magazines.",
   },
   {
-    period: "2016 — Present",
     role: "Podcast Speaker & Media Expert",
     detail:
       "Invited speaker across nutrition, wellness, performance and lifestyle podcasts. Featured on Zoom TV, Zee Khana Khazana and more.",
@@ -165,10 +158,13 @@ export default function FacultyPage() {
     <main className={styles.main}>
 
       {/* ══════════════════════════════════════════════
-          1. HERO
+          1. HERO — cinematic full-bleed split
+          Image fills left panel via absolute cover,
+          content sits right — no dead space on desktop
       ══════════════════════════════════════════════ */}
       <section className={styles.hero} aria-label="Faculty hero">
-        {/* portrait image */}
+
+        {/* LEFT: portrait panel — image is absolute/cover inside a relative container */}
         <div className={styles.heroImgWrap}>
           <Image
             src="/images/faculty/shraddha-gadit.jpg"
@@ -178,13 +174,14 @@ export default function FacultyPage() {
             priority
             sizes="(max-width: 768px) 100vw, 55vw"
           />
-          {/* cinematic overlays */}
+          {/* gradient bleeds into right content panel */}
           <div className={styles.heroOverlay} aria-hidden />
+          {/* gold seam between panels */}
           <div className={styles.heroLeakLeft}  aria-hidden />
           <div className={styles.heroLeakRight} aria-hidden />
         </div>
 
-        {/* text content */}
+        {/* RIGHT: text content */}
         <div className={styles.heroContent}>
           <div className={styles.heroBadge} aria-hidden>
             <span className={styles.heroBadgeLine} />
@@ -271,7 +268,6 @@ export default function FacultyPage() {
             </p>
           </div>
 
-          {/* Featured tier — degrees & flagship certs */}
           <div className={styles.credFeaturedGrid}>
             {CREDENTIALS_FEATURED.map((c) => (
               <div key={c.title} className={styles.credFeatured}>
@@ -285,7 +281,6 @@ export default function FacultyPage() {
             ))}
           </div>
 
-          {/* Secondary tier — certs & recognition */}
           <div className={styles.credGrid}>
             {CREDENTIALS.map((c) => (
               <div key={c.title} className={styles.credCard}>
@@ -302,7 +297,7 @@ export default function FacultyPage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          5. CAREER TIMELINE
+          5. CAREER TIMELINE — no periods, center-aligned
       ══════════════════════════════════════════════ */}
       <section className={styles.timelineSection} aria-label="Career highlights">
         <div className={styles.container}>
@@ -320,7 +315,7 @@ export default function FacultyPage() {
               >
                 <div className={styles.timelineNode} aria-hidden />
                 <div className={styles.timelineCard}>
-                  <span className={styles.timelinePeriod}>{t.period}</span>
+                  {/* period pill intentionally removed */}
                   <h3 className={styles.timelineRole}>{t.role}</h3>
                   <p className={styles.timelineDetail}>{t.detail}</p>
                 </div>
@@ -381,7 +376,6 @@ export default function FacultyPage() {
                 ))}
               </ul>
 
-              {/* External proof point */}
               <blockquote className={styles.speakerQuote}>
                 <p className={styles.speakerQuoteText}>
                   &ldquo;Shraddha brings an extraordinary depth of knowledge to the stage.
@@ -477,11 +471,10 @@ export default function FacultyPage() {
       </section>
 
       {/* ══════════════════════════════════════════════
-          10. BEYOND NUTRITION — full-width editorial
+          10. BEYOND NUTRITION — editorial
       ══════════════════════════════════════════════ */}
       <section className={styles.beyondSection} aria-label="A life of discipline and creativity">
         <div className={styles.beyondInner}>
-          {/* Pulsing ambient orb */}
           <div className={styles.beyondGlow} aria-hidden />
           <span className={styles.eyebrow}>A Life of Discipline &amp; Creativity</span>
           <h2 className={styles.beyondTitle}>
