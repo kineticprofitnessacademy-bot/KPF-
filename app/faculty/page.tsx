@@ -1,14 +1,10 @@
 // app/faculty/page.tsx
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
 import styles from "./Faculty.module.css";
-
-export const metadata: Metadata = {
-  title: "Shraddha Gadit — Faculty | KPF Academy",
-  description:
-    "Performance Nutrition Expert, Academic Leader & Founder of Kinetic Pro Fitness Academy. 17+ years, 10,000+ students, 500+ workshops.",
-};
 
 /* ─── DATA ───────────────────────────────────────────────────────── */
 
@@ -20,79 +16,24 @@ const STATS = [
 ];
 
 const CREDENTIALS_FEATURED = [
-  {
-    icon: "🎓",
-    title: "Master's in Food Science & Nutrition",
-    inst: "S.N.D.T. Women's University",
-    note: "University Gold Medalist · Department Rank Holder",
-  },
-  {
-    icon: "🎓",
-    title: "Bachelor's in Clinical Dietetics",
-    inst: "S.V.T. College of Home Science",
-    note: "Top academic standing",
-  },
-  {
-    icon: "🏅",
-    title: "Batch Topper — Sports Performance Nutrition",
-    inst: "IIT Madras",
-    note: "Elite executive programme",
-  },
+  { icon: "🎓", title: "Master's in Food Science & Nutrition",      inst: "S.N.D.T. Women's University",     note: "University Gold Medalist · Department Rank Holder" },
+  { icon: "🎓", title: "Bachelor's in Clinical Dietetics",          inst: "S.V.T. College of Home Science",  note: "Top academic standing" },
+  { icon: "🏅", title: "Batch Topper — Sports Performance Nutrition", inst: "IIT Madras",                   note: "Elite executive programme" },
 ];
 
 const CREDENTIALS = [
-  {
-    icon: "✦",
-    title: "Certified Nutrition Coach (CNC)",
-    inst: "NASM, USA",
-    note: "International certification",
-  },
-  {
-    icon: "✦",
-    title: "Certified Diabetes Educator",
-    inst: "National Diabetes Educator Program (NDEP)",
-    note: "Clinical specialisation",
-  },
-  {
-    icon: "🏆",
-    title: "Best Employee of the Year",
-    inst: "3 Consecutive Years — 2016–2019",
-    note: "Gold's Gym Fitness Institute",
-  },
+  { icon: "✦",  title: "Certified Nutrition Coach (CNC)",  inst: "NASM, USA",                               note: "International certification" },
+  { icon: "✦",  title: "Certified Diabetes Educator",      inst: "National Diabetes Educator Program (NDEP)", note: "Clinical specialisation" },
+  { icon: "🏆", title: "Best Employee of the Year",         inst: "3 Consecutive Years — 2016–2019",          note: "Gold's Gym Fitness Institute" },
 ];
 
-// ← periods removed from all items
 const TIMELINE = [
-  {
-    role: "Founder — Kinetic Pro Fitness Academy (KPF)",
-    detail:
-      "Building future-ready fitness and nutrition professionals with industry-relevant, evidence-based education.",
-  },
-  {
-    role: "Head of Department — Gold's Gym Fitness Institute",
-    detail:
-      "Led academic and operational excellence, mentored students, guided faculty teams and shaped curriculum across India.",
-  },
-  {
-    role: "Visiting Faculty — S.N.D.T. University",
-    detail:
-      "Mentoring students in applied nutrition and health sciences at one of India's premier women's universities.",
-  },
-  {
-    role: "International Fitness Education Representative",
-    detail:
-      "Represented Indian fitness education at international Gold's Gym conventions in Malaysia, Dubai and Bangkok.",
-  },
-  {
-    role: "Published Researcher & Author",
-    detail:
-      "Research published in the International Journal of Health Sciences and Research. Articles in leading health and fitness magazines.",
-  },
-  {
-    role: "Podcast Speaker & Media Expert",
-    detail:
-      "Invited speaker across nutrition, wellness, performance and lifestyle podcasts. Featured on Zoom TV, Zee Khana Khazana and more.",
-  },
+  { role: "Founder — Kinetic Pro Fitness Academy (KPF)",          detail: "Building future-ready fitness and nutrition professionals with industry-relevant, evidence-based education." },
+  { role: "Head of Department — Gold's Gym Fitness Institute",    detail: "Led academic and operational excellence, mentored students, guided faculty teams and shaped curriculum across India." },
+  { role: "Visiting Faculty — S.N.D.T. University",              detail: "Mentoring students in applied nutrition and health sciences at one of India's premier women's universities." },
+  { role: "International Fitness Education Representative",        detail: "Represented Indian fitness education at international Gold's Gym conventions in Malaysia, Dubai and Bangkok." },
+  { role: "Published Researcher & Author",                        detail: "Research published in the International Journal of Health Sciences and Research. Articles in leading health and fitness magazines." },
+  { role: "Podcast Speaker & Media Expert",                       detail: "Invited speaker across nutrition, wellness, performance and lifestyle podcasts. Featured on Zoom TV, Zee Khana Khazana and more." },
 ];
 
 const EXPERTISE = [
@@ -112,76 +53,116 @@ const APPROACH = [
 ];
 
 const LEGACY = [
-  {
-    icon: "🎓",
-    title: "Educational Reputation",
-    body: "Excellence from academics to real-world impact — a 17-year body of work that speaks for itself.",
-  },
-  {
-    icon: "🌍",
-    title: "International Representation",
-    body: "Carrying Indian fitness education to global platforms across Asia and the Middle East.",
-  },
-  {
-    icon: "🏆",
-    title: "Award-Winning Professional",
-    body: "Shaping thousands of careers with knowledge, mentorship and sustained guidance.",
-  },
-  {
-    icon: "✦",
-    title: "Founder's Vision",
-    body: "Building KPF Academy as the definitive home for India's next generation of fitness educators.",
-  },
+  { icon: "🎓", title: "Educational Reputation",      body: "Excellence from academics to real-world impact — a 17-year body of work that speaks for itself." },
+  { icon: "🌍", title: "International Representation", body: "Carrying Indian fitness education to global platforms across Asia and the Middle East." },
+  { icon: "🏆", title: "Award-Winning Professional",   body: "Shaping thousands of careers with knowledge, mentorship and sustained guidance." },
+  { icon: "✦",  title: "Founder's Vision",             body: "Building KPF Academy as the definitive home for India's next generation of fitness educators." },
 ];
 
 const MEDIA = [
-  { name: "Zoom TV",            icon: "📺" },
-  { name: "Zee Khana Khazana",  icon: "🍽" },
-  { name: "Chef Ranveer Brar",  icon: "👨‍🍳" },
-  { name: "Care World TV",      icon: "❤" },
-  { name: "HerZindagi",         icon: "✨" },
+  { name: "Zoom TV",           icon: "📺" },
+  { name: "Zee Khana Khazana", icon: "🍽" },
+  { name: "Chef Ranveer Brar", icon: "👨‍🍳" },
+  { name: "Care World TV",     icon: "❤" },
+  { name: "HerZindagi",        icon: "✨" },
 ];
 
 const AVAILABLE = [
-  { icon: "🎤", title: "Keynote Speeches",                   desc: "Corporate events, conferences and academic institutions." },
-  { icon: "🏢", title: "Corporate Wellness Programs",         desc: "Structured workplace health and performance programmes." },
-  { icon: "📋", title: "Training & Workshops",               desc: "Hands-on skill-building for professionals and teams." },
-  { icon: "🎙", title: "Panel Discussions",                   desc: "Industry forums, education summits and health platforms." },
-  { icon: "🎧", title: "Podcast & Media Appearances",         desc: "Nutrition, wellness, performance and lifestyle conversations." },
-  { icon: "🤝", title: "Academic & Industry Collaborations",  desc: "Research, curriculum design and institutional partnerships." },
+  { icon: "🎤", title: "Keynote Speeches",                  desc: "Corporate events, conferences and academic institutions." },
+  { icon: "🏢", title: "Corporate Wellness Programs",        desc: "Structured workplace health and performance programmes." },
+  { icon: "📋", title: "Training & Workshops",              desc: "Hands-on skill-building for professionals and teams." },
+  { icon: "🎙", title: "Panel Discussions",                  desc: "Industry forums, education summits and health platforms." },
+  { icon: "🎧", title: "Podcast & Media Appearances",        desc: "Nutrition, wellness, performance and lifestyle conversations." },
+  { icon: "🤝", title: "Academic & Industry Collaborations", desc: "Research, curriculum design and institutional partnerships." },
 ];
+
+/* ─── SCROLL REVEAL HOOK ─────────────────────────────────────────── */
+/*
+  Adds the local CSS class "revealed" to elements that have one of:
+    styles.reveal, styles.revealLeft, styles.revealRight,
+    styles.revealScale, styles.stagger
+  when they enter the viewport. CSS does the animation.
+*/
+function useReveal() {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+
+    // Collect all animatable elements by their local CSS module class
+    const selectors = [
+      `.${styles.reveal}`,
+      `.${styles.revealLeft}`,
+      `.${styles.revealRight}`,
+      `.${styles.revealScale}`,
+      `.${styles.stagger}`,
+    ].join(", ");
+
+    const targets = root.querySelectorAll<HTMLElement>(selectors);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+
+          // For stagger parents: delay each direct child
+          if (el.classList.contains(styles.stagger)) {
+            Array.from(el.children).forEach((child, i) => {
+              (child as HTMLElement).style.transitionDelay = `${i * 85}ms`;
+            });
+          }
+
+          el.classList.add(styles.revealed);
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -48px 0px" }
+    );
+
+    targets.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  return ref;
+}
 
 /* ─── PAGE ───────────────────────────────────────────────────────── */
 
 export default function FacultyPage() {
-  return (
-    <main className={styles.main}>
+  const pageRef = useReveal();
 
-      {/* ══════════════════════════════════════════════
-          1. HERO — cinematic full-bleed split
-          Image fills left panel via absolute cover,
-          content sits right — no dead space on desktop
-      ══════════════════════════════════════════════ */}
+  // Helper: join class names cleanly
+  const cx = (...classes: string[]) => classes.filter(Boolean).join(" ");
+
+  return (
+    <main className={styles.main} ref={pageRef as React.RefObject<HTMLDivElement>}>
+
+      {/* ══ 1. HERO ══════════════════════════════════════════════════ */}
       <section className={styles.hero} aria-label="Faculty hero">
 
-        {/* LEFT: portrait panel — image is absolute/cover inside a relative container */}
-        <div className={styles.heroImgWrap}>
+        {/* LEFT grid cell — image panel */}
+        <div className={styles.heroBgWrap}>
           <Image
             src="/images/faculty/shraddha-gadit.jpg"
             fill
             alt="Shraddha Gadit — Founder KPF Academy"
-            className={styles.heroImg}
+            className={styles.heroBgImg}
             priority
-            sizes="(max-width: 768px) 100vw, 55vw"
+            sizes="(max-width: 768px) 100vw, 52vw"
           />
-          {/* gradient bleeds into right content panel */}
-          <div className={styles.heroOverlay} aria-hidden />
-          {/* gold seam between panels */}
-          <div className={styles.heroLeakLeft}  aria-hidden />
-          <div className={styles.heroLeakRight} aria-hidden />
+          {/* Overlays inside the image panel */}
+          <div className={styles.heroGradLeft}   aria-hidden />
+          <div className={styles.heroGradRight}  aria-hidden />
+          <div className={styles.heroGradBottom} aria-hidden />
+          <div className={styles.heroGrain}      aria-hidden />
+          <div className={styles.heroShimmer}    aria-hidden />
+          {/* Gold seam on right edge of image panel */}
+          <div className={styles.heroSeam}       aria-hidden />
         </div>
 
-        {/* RIGHT: text content */}
+        {/* Content — right half on desktop, bottom on mobile */}
         <div className={styles.heroContent}>
           <div className={styles.heroBadge} aria-hidden>
             <span className={styles.heroBadgeLine} />
@@ -201,49 +182,49 @@ export default function FacultyPage() {
             Inspiring.&nbsp;Educating.&nbsp;Transforming.
           </p>
 
+          <div className={styles.heroStats}>
+            {STATS.slice(0, 3).map((s) => (
+              <div key={s.num} className={styles.heroStat}>
+                <span className={styles.heroStatNum}>{s.num}</span>
+                <span className={styles.heroStatLabel}>{s.label}</span>
+              </div>
+            ))}
+          </div>
+
           <div className={styles.heroCta}>
-            <Link href="#contact" className={styles.btnGold}>
-              Work With Shraddha
-            </Link>
-            <Link href="#credentials" className={styles.btnOutline}>
-              View Credentials
-            </Link>
+            <Link href="#contact" className={styles.btnGold}>Work With Shraddha</Link>
+            <Link href="#credentials" className={styles.btnOutline}>View Credentials</Link>
           </div>
         </div>
 
-        {/* scroll hint */}
         <div className={styles.heroScroll} aria-hidden>
           <span className={styles.heroScrollLine} />
           <span className={styles.heroScrollLabel}>scroll</span>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          2. CORE BELIEF
-      ══════════════════════════════════════════════ */}
+      {/* ══ 2. CORE BELIEF ══════════════════════════════════════════ */}
       <section className={styles.belief} aria-label="Core belief">
         <div className={styles.beliefInner}>
-          <span className={styles.beliefEye}>Core Belief</span>
-          <blockquote className={styles.beliefQuote}>
+          <span className={cx(styles.beliefEye, styles.reveal)}>Core Belief</span>
+          <blockquote className={cx(styles.beliefQuote, styles.reveal)}>
             <span className={styles.beliefMark}>&ldquo;</span>
             Driven by a belief that lasting health outcomes are created through
             education, systems and behaviour change — not simply information.
             <span className={styles.beliefMark}>&rdquo;</span>
           </blockquote>
-          <cite className={styles.beliefCite}>— Shraddha Gadit</cite>
-          <div className={styles.beliefRule} aria-hidden />
-          <p className={styles.beliefSub}>
+          <cite className={cx(styles.beliefCite, styles.reveal)}>— Shraddha Gadit</cite>
+          <div className={cx(styles.beliefRule, styles.revealScale)} aria-hidden />
+          <p className={cx(styles.beliefSub, styles.reveal)}>
             Recognised for contributions to Nutrition Education, Fitness Leadership
             and Professional Development across India and internationally.
           </p>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          3. STATS
-      ══════════════════════════════════════════════ */}
+      {/* ══ 3. STATS ════════════════════════════════════════════════ */}
       <section className={styles.statsSection} aria-label="Key numbers">
-        <div className={styles.statsGrid}>
+        <div className={cx(styles.statsGrid, styles.stagger)}>
           {STATS.map((s) => (
             <div key={s.num} className={styles.statCard}>
               <div className={styles.statGlow} aria-hidden />
@@ -255,12 +236,10 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          4. CREDENTIALS
-      ══════════════════════════════════════════════ */}
+      {/* ══ 4. CREDENTIALS ═════════════════════════════════════════ */}
       <section className={styles.credSection} id="credentials" aria-label="Credentials">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Academic &amp; Professional</span>
             <h2 className={styles.sectionTitle}>Credentials</h2>
             <p className={styles.sectionSub}>
@@ -268,7 +247,7 @@ export default function FacultyPage() {
             </p>
           </div>
 
-          <div className={styles.credFeaturedGrid}>
+          <div className={cx(styles.credFeaturedGrid, styles.stagger)}>
             {CREDENTIALS_FEATURED.map((c) => (
               <div key={c.title} className={styles.credFeatured}>
                 <span className={styles.credIcon} aria-hidden>{c.icon}</span>
@@ -281,7 +260,7 @@ export default function FacultyPage() {
             ))}
           </div>
 
-          <div className={styles.credGrid}>
+          <div className={cx(styles.credGrid, styles.stagger)}>
             {CREDENTIALS.map((c) => (
               <div key={c.title} className={styles.credCard}>
                 <span className={styles.credIcon} aria-hidden>{c.icon}</span>
@@ -296,12 +275,10 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          5. CAREER TIMELINE — no periods, center-aligned
-      ══════════════════════════════════════════════ */}
+      {/* ══ 5. CAREER TIMELINE ═════════════════════════════════════ */}
       <section className={styles.timelineSection} aria-label="Career highlights">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Career Highlights</span>
             <h2 className={styles.sectionTitle}>A Decade of Leadership</h2>
           </div>
@@ -311,11 +288,14 @@ export default function FacultyPage() {
             {TIMELINE.map((t, i) => (
               <div
                 key={t.role}
-                className={`${styles.timelineItem} ${i % 2 === 0 ? styles.timelineLeft : styles.timelineRight}`}
+                className={cx(
+                  styles.timelineItem,
+                  i % 2 === 0 ? styles.timelineLeft : styles.timelineRight,
+                  i % 2 === 0 ? styles.revealLeft   : styles.revealRight
+                )}
               >
                 <div className={styles.timelineNode} aria-hidden />
                 <div className={styles.timelineCard}>
-                  {/* period pill intentionally removed */}
                   <h3 className={styles.timelineRole}>{t.role}</h3>
                   <p className={styles.timelineDetail}>{t.detail}</p>
                 </div>
@@ -325,16 +305,14 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          6. EXPERTISE
-      ══════════════════════════════════════════════ */}
+      {/* ══ 6. EXPERTISE ═══════════════════════════════════════════ */}
       <section className={styles.expertiseSection} aria-label="Areas of expertise">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Specialisations</span>
             <h2 className={styles.sectionTitle}>Areas of Expertise</h2>
           </div>
-          <div className={styles.expertiseGrid}>
+          <div className={cx(styles.expertiseGrid, styles.stagger)}>
             {EXPERTISE.map((e) => (
               <div key={e.title} className={styles.expertiseCard}>
                 <span className={styles.expertiseIcon} aria-hidden>{e.icon}</span>
@@ -347,13 +325,11 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          7. SPEAKER · EDUCATOR · INFLUENCER
-      ══════════════════════════════════════════════ */}
+      {/* ══ 7. SPEAKER ═════════════════════════════════════════════ */}
       <section className={styles.speakerSection} aria-label="Speaker and educator">
         <div className={styles.container}>
           <div className={styles.speakerGrid}>
-            <div className={styles.speakerCopy}>
+            <div className={cx(styles.speakerCopy, styles.revealLeft)}>
               <span className={styles.eyebrow}>Speaker · Educator · Influencer</span>
               <h2 className={styles.sectionTitle}>500+ Events Delivered</h2>
               <p className={styles.bodyText}>
@@ -375,7 +351,6 @@ export default function FacultyPage() {
                   </li>
                 ))}
               </ul>
-
               <blockquote className={styles.speakerQuote}>
                 <p className={styles.speakerQuoteText}>
                   &ldquo;Shraddha brings an extraordinary depth of knowledge to the stage.
@@ -383,13 +358,12 @@ export default function FacultyPage() {
                   and genuinely transformative for any audience.&rdquo;
                 </p>
                 <cite className={styles.speakerQuoteAttr}>
-                  Event Director&nbsp;
-                  <span>— India Fitness Summit, 2023</span>
+                  Event Director&nbsp;<span>— India Fitness Summit, 2023</span>
                 </cite>
               </blockquote>
             </div>
 
-            <div className={styles.speakerStatWrap}>
+            <div className={cx(styles.speakerStatWrap, styles.revealRight)}>
               {[
                 { num: "500+", label: "Workshops & Webinars" },
                 { num: "100+", label: "Corporate Events"     },
@@ -405,19 +379,15 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          8. PROUD TO BE
-      ══════════════════════════════════════════════ */}
+      {/* ══ 8. PROUD TO BE ═════════════════════════════════════════ */}
       <section className={styles.proudSection} aria-label="Proud to be">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Beyond Nutrition</span>
             <h2 className={styles.sectionTitle}>Proud To Be</h2>
-            <p className={styles.sectionSub}>
-              Where science meets art, and passion creates purpose.
-            </p>
+            <p className={styles.sectionSub}>Where science meets art, and passion creates purpose.</p>
           </div>
-          <div className={styles.proudGrid}>
+          <div className={cx(styles.proudGrid, styles.stagger)}>
             <div className={styles.proudCard}>
               <div className={styles.proudArt} aria-hidden>
                 <span className={styles.proudArtGlyph}>𝄞</span>
@@ -433,7 +403,7 @@ export default function FacultyPage() {
               </div>
             </div>
             <div className={styles.proudCard}>
-              <div className={`${styles.proudArt} ${styles.proudArtPaint}`} aria-hidden>
+              <div className={cx(styles.proudArt, styles.proudArtPaint)} aria-hidden>
                 <span className={styles.proudArtGlyph}>✦</span>
               </div>
               <div className={styles.proudBody}>
@@ -449,16 +419,14 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          9. MY APPROACH
-      ══════════════════════════════════════════════ */}
+      {/* ══ 9. MY APPROACH ═════════════════════════════════════════ */}
       <section className={styles.approachSection} aria-label="My approach">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Philosophy</span>
             <h2 className={styles.sectionTitle}>My Approach</h2>
           </div>
-          <div className={styles.approachGrid}>
+          <div className={cx(styles.approachGrid, styles.stagger)}>
             {APPROACH.map((a) => (
               <div key={a.step} className={styles.approachCard}>
                 <span className={styles.approachStep} aria-hidden>{a.step}</span>
@@ -470,11 +438,9 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          10. BEYOND NUTRITION — editorial
-      ══════════════════════════════════════════════ */}
+      {/* ══ 10. BEYOND — editorial ══════════════════════════════════ */}
       <section className={styles.beyondSection} aria-label="A life of discipline and creativity">
-        <div className={styles.beyondInner}>
+        <div className={cx(styles.beyondInner, styles.revealScale)}>
           <div className={styles.beyondGlow} aria-hidden />
           <span className={styles.eyebrow}>A Life of Discipline &amp; Creativity</span>
           <h2 className={styles.beyondTitle}>
@@ -492,16 +458,14 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          11. LEGACY & VISION
-      ══════════════════════════════════════════════ */}
+      {/* ══ 11. LEGACY & VISION ════════════════════════════════════ */}
       <section className={styles.legacySection} aria-label="Legacy and vision">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Legacy &amp; Vision</span>
             <h2 className={styles.sectionTitle}>Building a Legacy</h2>
           </div>
-          <div className={styles.legacyGrid}>
+          <div className={cx(styles.legacyGrid, styles.stagger)}>
             {LEGACY.map((l) => (
               <div key={l.title} className={styles.legacyCard}>
                 <span className={styles.legacyIcon} aria-hidden>{l.icon}</span>
@@ -514,16 +478,14 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          12. MEDIA FEATURES
-      ══════════════════════════════════════════════ */}
+      {/* ══ 12. MEDIA ══════════════════════════════════════════════ */}
       <section className={styles.mediaSection} aria-label="Media features">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Featured In</span>
             <h2 className={styles.sectionTitle}>Media &amp; Press</h2>
           </div>
-          <div className={styles.mediaStrip}>
+          <div className={cx(styles.mediaStrip, styles.stagger)}>
             {MEDIA.map((m) => (
               <div key={m.name} className={styles.mediaItem}>
                 <span className={styles.mediaIcon} aria-hidden>{m.icon}</span>
@@ -534,16 +496,14 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          13. AVAILABLE FOR
-      ══════════════════════════════════════════════ */}
+      {/* ══ 13. AVAILABLE FOR ══════════════════════════════════════ */}
       <section className={styles.availSection} aria-label="Available for">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
+          <div className={cx(styles.sectionHead, styles.reveal)}>
             <span className={styles.eyebrow}>Engagements</span>
             <h2 className={styles.sectionTitle}>Available For</h2>
           </div>
-          <div className={styles.availGrid}>
+          <div className={cx(styles.availGrid, styles.stagger)}>
             {AVAILABLE.map((a) => (
               <div key={a.title} className={styles.availCard}>
                 <span className={styles.availIcon} aria-hidden>{a.icon}</span>
@@ -555,13 +515,11 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          14. CONTACT
-      ══════════════════════════════════════════════ */}
+      {/* ══ 14. CONTACT ════════════════════════════════════════════ */}
       <section className={styles.contactSection} id="contact" aria-label="Contact">
         <div className={styles.container}>
           <div className={styles.contactGrid}>
-            <div className={styles.contactCopy}>
+            <div className={cx(styles.contactCopy, styles.revealLeft)}>
               <span className={styles.eyebrow}>Get In Touch</span>
               <h2 className={styles.sectionTitle}>Let&rsquo;s Connect</h2>
               <p className={styles.bodyText}>
@@ -570,7 +528,7 @@ export default function FacultyPage() {
                 17 years of expertise to every engagement.
               </p>
             </div>
-            <div className={styles.contactCards}>
+            <div className={cx(styles.contactCards, styles.stagger)}>
               <a href="tel:+917208299269" className={styles.contactCard}>
                 <span className={styles.contactCardIcon} aria-hidden>📞</span>
                 <div>
@@ -597,13 +555,11 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          15. FINAL KPF CTA
-      ══════════════════════════════════════════════ */}
+      {/* ══ 15. FINAL CTA ══════════════════════════════════════════ */}
       <section className={styles.ctaSection} aria-label="KPF Academy CTA">
-        <div className={styles.ctaGlow} aria-hidden />
-        <div className={styles.ctaBeam} aria-hidden />
-        <div className={styles.ctaInner}>
+        <div className={styles.ctaGlowEl} aria-hidden />
+        <div className={styles.ctaBeam}   aria-hidden />
+        <div className={cx(styles.ctaInner, styles.revealScale)}>
           <span className={styles.ctaEye}>Kinetic Pro Fitness Academy</span>
           <h2 className={styles.ctaTitle}>
             Inspiring.{" "}
@@ -615,12 +571,8 @@ export default function FacultyPage() {
             careers under Shraddha Gadit&rsquo;s guidance at KPF Academy.
           </p>
           <div className={styles.ctaActions}>
-            <Link href="/programs" className={styles.btnGold}>
-              Explore Programs
-            </Link>
-            <Link href="/contact" className={styles.btnOutline}>
-              Enquire Now
-            </Link>
+            <Link href="/programs" className={styles.btnGold}>Explore Programs</Link>
+            <Link href="/contact" className={styles.btnOutline}>Enquire Now</Link>
           </div>
         </div>
       </section>
