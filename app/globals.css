@@ -2094,3 +2094,21 @@ section {
 }
 
 }
+@media (max-width: 768px) {
+  .container > div {
+    grid-template-columns: 1fr !important;
+  }
+
+  .facultyImageWrap {
+    transform: none !important;
+    height: 280px !important;
+  }
+
+  .stats-row {
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    flex: 1 1 45%;
+  }
+}
