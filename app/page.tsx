@@ -337,7 +337,82 @@ export default function HomePage() {
 
   </div>
 </section>
+{/* ══ LEADERSHIP ═══════════════════════════════════════════ */}
+<section className="section section-dark">
+  <div className="container">
 
+    <div className="sectionHeader">
+      <span className="section-label">Leadership</span>
+
+      <h2>
+        Meet the Vision Behind
+        <br />
+        KPF Academy.
+      </h2>
+
+      <p className="sectionSubtitle">
+        Built by professionals committed to raising the standard of fitness education.
+      </p>
+    </div>
+
+    <div className="leadershipFeature">
+
+      {/* LEFT CONTENT */}
+      <div className="leadershipContent">
+
+        <div className="facultyRole">
+          Co-Founder
+        </div>
+
+        <h3 className="facultyName">
+          Ratanraj S. Reddy
+        </h3>
+
+        <p className="facultyBio">
+          With over 20 years of experience in fitness education,
+          trainer development, and coaching excellence, Ratanraj S. Reddy
+          has dedicated his career to developing competent fitness
+          professionals through practical education and mentorship.
+        </p>
+
+        <ul className="leadershipList">
+          <li>20+ Years of Industry Experience</li>
+          <li>Former Head Trainer, Gold's Gym</li>
+          <li>Owner & Master Trainer, Trio Fitness</li>
+          <li>Industry Mentor & Educator</li>
+        </ul>
+
+        <Link href="/co-founder" className="btn-gold">
+  Meet Our Co-Founder →
+</Link>
+
+      </div>
+
+      {/* RIGHT IMAGE */}
+
+      <div className="leadershipImageWrap">
+
+        {/* Replace later */}
+
+        {/*
+        <Image
+          src="/images/ratanraj.jpg"
+          alt="Ratanraj S. Reddy"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+        */}
+
+        <div className="imagePlaceholder">
+          Co-Founder Image
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
       {/* ══ CAREER SUPPORT ════════════════════════════════════════ */}
       <section className="section section-darker">
         <div className="container">

@@ -2015,3 +2015,82 @@ body {
 section {
   overflow-x: hidden;
 }
+.badge{
+    display:inline-flex;
+    align-items:center;
+    padding:.55rem 1rem;
+    border-radius:999px;
+    border:1px solid rgba(212,196,106,.22);
+    background:rgba(212,196,106,.06);
+    color:#d4c46a;
+    font-size:.82rem;
+    font-weight:500;
+}
+
+.badge:hover{
+    background:rgba(212,196,106,.12);
+    transition:.3s;
+}
+.leadershipFeature{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:4rem;
+    align-items:center;
+}
+
+.leadershipContent{
+    max-width:620px;
+}
+
+.leadershipImageWrap{
+    position:relative;
+    aspect-ratio:3/4;
+    border-radius:28px;
+    overflow:hidden;
+    background:#1c1c1c;
+    border:1px solid rgba(212,196,106,.15);
+}
+
+.imagePlaceholder{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#777;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.leadershipList{
+    list-style:none;
+    padding:0;
+    margin:2rem 0;
+}
+
+.leadershipList li{
+    margin-bottom:1rem;
+    color:#d5d5d5;
+    position:relative;
+    padding-left:28px;
+    line-height:1.7;
+}
+
+.leadershipList li::before{
+    content:"✦";
+    color:#d4c46a;
+    position:absolute;
+    left:0;
+}
+
+@media (max-width:900px){
+
+.leadershipFeature{
+    grid-template-columns:1fr;
+}
+
+.leadershipImageWrap{
+    order:-1;
+}
+
+}

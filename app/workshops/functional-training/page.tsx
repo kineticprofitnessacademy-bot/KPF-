@@ -306,7 +306,7 @@ export default function WorkshopPage() {
                   { year: '2012', org: 'Talwalkars', role: 'Master Trainer' },
                   { year: '2015', org: 'Level 6', role: 'Trainer & Management' },
                   { year: '2020', org: 'Freelance', role: 'Elite Coach' },
-                  { year: '2022', org: 'KPF Academy', role: 'Founder & Head Coach' },
+                
                 ].map((t, i) => (
                   <div className={styles.timelineItem} key={i}>
                     <span className={styles.timelineYear}>{t.year}</span>
