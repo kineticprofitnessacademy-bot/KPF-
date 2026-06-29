@@ -343,13 +343,11 @@ export default function HomePage() {
 
     <div className="sectionHeader">
       <span className="section-label">Leadership</span>
-
       <h2>
         Meet the Vision Behind
         <br />
         KPF Academy.
       </h2>
-
       <p className="sectionSubtitle">
         Built by professionals committed to raising the standard of fitness education.
       </p>
@@ -359,54 +357,35 @@ export default function HomePage() {
 
       {/* LEFT CONTENT */}
       <div className="leadershipContent">
-
-        <div className="facultyRole">
-          Co-Founder
-        </div>
-
-        <h3 className="facultyName">
-          Ratanraj S. Reddy
-        </h3>
-
+        <div className="facultyRole">Co-Founder</div>
+        <h3 className="facultyName">Ratanraj S. Reddy</h3>
         <p className="facultyBio">
           With over 20 years of experience in fitness education,
           trainer development, and coaching excellence, Ratanraj S. Reddy
           has dedicated his career to developing competent fitness
           professionals through practical education and mentorship.
         </p>
-
         <ul className="leadershipList">
           <li>20+ Years of Industry Experience</li>
           <li>Former Head Trainer, Gold's Gym</li>
-          <li>Owner & Master Trainer, Trio Fitness</li>
-          <li>Industry Mentor & Educator</li>
+          <li>Owner &amp; Master Trainer, Trio Fitness</li>
+          <li>Industry Mentor &amp; Educator</li>
         </ul>
-
         <Link href="/co-founder" className="btn-gold">
-  Meet Our Co-Founder →
-</Link>
-
+          Meet Our Co-Founder →
+        </Link>
       </div>
 
       {/* RIGHT IMAGE */}
-
-      <div className="leadershipImageWrap">
-
-        {/* Replace later */}
-
-        {/*
+      <div className="leadershipImageWrap" style={{ position: "relative" }}>
         <Image
-          src="/images/ratanraj.jpg"
-          alt="Ratanraj S. Reddy"
+          src="/images/team/ratanraj.jpg"
+          alt="Ratanraj S. Reddy — Co-Founder, KPF Academy"
           fill
-          style={{ objectFit: "cover" }}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          style={{ objectFit: "cover", objectPosition: "center top" }}
+          priority
         />
-        */}
-
-        <div className="imagePlaceholder">
-          Co-Founder Image
-        </div>
-
       </div>
 
     </div>

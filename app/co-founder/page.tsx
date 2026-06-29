@@ -27,7 +27,8 @@ function useReveal() {
       { threshold: 0.08, rootMargin: "0px 0px -48px 0px" }
     );
     els.forEach((el) => {
-      el.style.transition = "opacity 0.75s cubic-bezier(0.23,1,0.32,1), transform 0.75s cubic-bezier(0.23,1,0.32,1)";
+      el.style.transition =
+        "opacity 0.75s cubic-bezier(0.23,1,0.32,1), transform 0.75s cubic-bezier(0.23,1,0.32,1)";
       el.style.willChange = "opacity, transform";
       el.style.opacity = "0";
       if (el.dataset.r  !== undefined) el.style.transform = "translateY(36px)";
@@ -56,10 +57,10 @@ function useReveal() {
 
 /* ─── DATA ───────────────────────────────────────────────────────── */
 const STATS = [
-  { num: "20+",  label: "Years Experience" },
-  { num: "3",    label: "Premier Institutions" },
-  { num: "1000+",label: "Trainers Mentored" },
-  { num: "5★",   label: "Coaching Standard" },
+  { num: "20+",   label: "Years Experience" },
+  { num: "3",     label: "Premier Institutions" },
+  { num: "1000+", label: "Trainers Mentored" },
+  { num: "5★",    label: "Coaching Standard" },
 ];
 
 const JOURNEY = [
@@ -90,12 +91,12 @@ const JOURNEY = [
 ];
 
 const EXPERTISE = [
-  { icon: "🏋️", title: "Strength & Conditioning", desc: "Periodised strength protocols for athletes, recreational clients and performance-focused individuals." },
-  { icon: "🧠", title: "Trainer Development", desc: "Mentoring aspiring coaches with real floor experience, feedback systems and programming frameworks." },
+  { icon: "🏋️", title: "Strength & Conditioning",   desc: "Periodised strength protocols for athletes, recreational clients and performance-focused individuals." },
+  { icon: "🧠", title: "Trainer Development",        desc: "Mentoring aspiring coaches with real floor experience, feedback systems and programming frameworks." },
   { icon: "🔬", title: "Evidence-Based Programming", desc: "Every protocol built on exercise science — not trends. Results that are measurable, repeatable and safe." },
-  { icon: "♻️", title: "Rehab & Movement", desc: "Corrective exercise and mobility integration for clients returning from injury or managing chronic issues." },
-  { icon: "🎯", title: "Client Transformation", desc: "Fat loss, muscle gain and performance — guided by data, delivered with precision." },
-  { icon: "🏢", title: "Gym Operations", desc: "Running a high-performance training facility — systems, staffing, and culture that sustains results." },
+  { icon: "♻️", title: "Rehab & Movement",           desc: "Corrective exercise and mobility integration for clients returning from injury or managing chronic issues." },
+  { icon: "🎯", title: "Client Transformation",      desc: "Fat loss, muscle gain and performance — guided by data, delivered with precision." },
+  { icon: "🏢", title: "Gym Operations",             desc: "Running a high-performance training facility — systems, staffing, and culture that sustains results." },
 ];
 
 const PHILOSOPHY = [
@@ -129,7 +130,10 @@ export default function CoFounderPage() {
     <main ref={pageRef as React.RefObject<HTMLDivElement>}>
 
       {/* ══ HERO ═══════════════════════════════════════════════════ */}
-      <section className="section section-dark" style={{ paddingTop: "clamp(4rem,8vh,7rem)", paddingBottom: "clamp(4rem,8vh,7rem)" }}>
+      <section
+        className="section section-dark"
+        style={{ paddingTop: "clamp(4rem,8vh,7rem)", paddingBottom: "clamp(4rem,8vh,7rem)" }}
+      >
         <div className="container">
           <div
             style={{
@@ -143,18 +147,34 @@ export default function CoFounderPage() {
             <div data-rl>
               <span className="section-label">Co-Founder · KPF Academy</span>
 
-              <h1 style={{ fontSize: "clamp(3rem,6vw,5.8rem)", lineHeight: 0.92, marginBottom: "1.2rem" }}>
+              <h1
+                style={{
+                  fontSize: "clamp(3rem,6vw,5.8rem)",
+                  lineHeight: 0.92,
+                  marginBottom: "1.2rem",
+                }}
+              >
                 Ratanraj<br />
                 <span style={{ color: "var(--neon)" }}>S. Reddy</span>
               </h1>
 
-              <p style={{ fontSize: "clamp(0.95rem,1.4vw,1.1rem)", color: "var(--gray)", lineHeight: 1.85, marginBottom: "2rem", maxWidth: "540px" }}>
+              <p
+                style={{
+                  fontSize: "clamp(0.95rem,1.4vw,1.1rem)",
+                  color: "var(--gray)",
+                  lineHeight: 1.85,
+                  marginBottom: "2rem",
+                  maxWidth: "540px",
+                }}
+              >
                 With over 20 years on the gym floor, Ratanraj S. Reddy has shaped trainers,
                 transformed clients, and built institutions. As Co-Founder of KPF Academy,
                 he brings everything he learned the hard way — so the next generation doesn't have to.
               </p>
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", marginBottom: "2.5rem" }}>
+              <div
+                style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", marginBottom: "2.5rem" }}
+              >
                 <span className="badge">20+ Years Experience</span>
                 <span className="badge">Former Head Trainer · Gold's Gym</span>
                 <span className="badge">Owner · Trio Fitness</span>
@@ -172,35 +192,21 @@ export default function CoFounderPage() {
               <div
                 className="facultyImageWrap"
                 style={{
+                  position: "relative",          /* required for Next.js fill Image */
                   height: "clamp(400px,52vh,580px)",
                   borderRadius: "28px",
+                  overflow: "hidden",             /* clip the image to rounded corners */
                   transform: "perspective(1400px) rotateY(-4deg)",
                 }}
               >
-                {/* Replace src with actual image when available */}
-                <div
-                  style={{
-                    width: "100%", height: "100%",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    background: "linear-gradient(135deg, rgba(212,196,106,0.08), rgba(212,196,106,0.02))",
-                    color: "var(--gray2)",
-                    fontFamily: "'Barlow Condensed', sans-serif",
-                    fontSize: "0.72rem",
-                    letterSpacing: "0.28em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {/*
-                    <Image
-                      src="/images/team/ratanraj.jpg"
-                      alt="Ratanraj S. Reddy"
-                      fill
-                      style={{ objectFit: "cover", objectPosition: "center top" }}
-                      priority
-                    />
-                  */}
-                  Photo Coming Soon
-                </div>
+                <Image
+                  src="/images/team/ratanraj.jpg"
+                  alt="Ratanraj S. Reddy — Co-Founder, KPF Academy"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 38vw"
+                  style={{ objectFit: "cover", objectPosition: "center top" }}
+                  priority
+                />
               </div>
 
               {/* Floating stat badge */}
@@ -218,8 +224,28 @@ export default function CoFounderPage() {
                   boxShadow: "0 12px 40px rgba(244,197,66,0.3)",
                 }}
               >
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "2rem", color: "#060400", lineHeight: 1 }}>20+</div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "0.62rem", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "#3a2800" }}>Years on the Floor</div>
+                <div
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontSize: "2rem",
+                    color: "#060400",
+                    lineHeight: 1,
+                  }}
+                >
+                  20+
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "0.62rem",
+                    fontWeight: 800,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: "#3a2800",
+                  }}
+                >
+                  Years on the Floor
+                </div>
               </div>
             </div>
           </div>
@@ -247,18 +273,26 @@ export default function CoFounderPage() {
             </p>
           </div>
 
-          {/* Timeline cards */}
           <div className="timelineGrid" data-stagger>
             {JOURNEY.map((j, i) => (
               <div key={i} className="timelineCard" style={{ textAlign: "left" }}>
-                <div className="timelineStep" style={{ textAlign: "left" }}>{String(i + 1).padStart(2, "0")}</div>
+                <div className="timelineStep" style={{ textAlign: "left" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </div>
                 <div className="timelineTime">{j.year}</div>
-                <div style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: "0.62rem", fontWeight: 800, letterSpacing: "0.22em",
-                  textTransform: "uppercase", color: "var(--neon)",
-                  marginBottom: "0.4rem",
-                }}>{j.org}</div>
+                <div
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "0.62rem",
+                    fontWeight: 800,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "var(--neon)",
+                    marginBottom: "0.4rem",
+                  }}
+                >
+                  {j.org}
+                </div>
                 <div className="timelineTitle">{j.role}</div>
                 <div className="timelineDesc">{j.desc}</div>
               </div>
@@ -323,28 +357,37 @@ export default function CoFounderPage() {
                 </div>
                 <div className="statsCardDeco" />
 
-                {/* Quote inside card */}
-                <blockquote style={{
-                  marginTop: "2rem",
-                  paddingTop: "1.5rem",
-                  borderTop: "1px solid var(--border)",
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontStyle: "italic",
-                  fontSize: "clamp(1rem,1.4vw,1.2rem)",
-                  lineHeight: 1.6,
-                  color: "var(--neon)",
-                  position: "relative",
-                  zIndex: 1,
-                }}>
+                <blockquote
+                  style={{
+                    marginTop: "2rem",
+                    paddingTop: "1.5rem",
+                    borderTop: "1px solid var(--border)",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontStyle: "italic",
+                    fontSize: "clamp(1rem,1.4vw,1.2rem)",
+                    lineHeight: 1.6,
+                    color: "var(--neon)",
+                    position: "relative",
+                    zIndex: 1,
+                  }}
+                >
                   "Great fitness professionals aren't just trained — they are mentored, challenged,
                   and inspired to keep learning every single day."
-                  <cite style={{
-                    display: "block", marginTop: "0.8rem",
-                    fontFamily: "'Barlow Condensed', sans-serif",
-                    fontSize: "0.62rem", fontWeight: 800,
-                    letterSpacing: "0.24em", textTransform: "uppercase",
-                    color: "var(--gray2)", fontStyle: "normal",
-                  }}>— Ratanraj S. Reddy</cite>
+                  <cite
+                    style={{
+                      display: "block",
+                      marginTop: "0.8rem",
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: "0.62rem",
+                      fontWeight: 800,
+                      letterSpacing: "0.24em",
+                      textTransform: "uppercase",
+                      color: "var(--gray2)",
+                      fontStyle: "normal",
+                    }}
+                  >
+                    — Ratanraj S. Reddy
+                  </cite>
                 </blockquote>
               </div>
             </div>
@@ -367,7 +410,9 @@ export default function CoFounderPage() {
             {EXPERTISE.map((e, i) => (
               <div key={i} className="pillarCard">
                 <div className="pillarNum">{String(i + 1).padStart(2, "0")}</div>
-                <div style={{ fontSize: "1.8rem", marginBottom: "1rem", position: "relative", zIndex: 2 }}>{e.icon}</div>
+                <div style={{ fontSize: "1.8rem", marginBottom: "1rem", position: "relative", zIndex: 2 }}>
+                  {e.icon}
+                </div>
                 <div className="pillarTitle">{e.title}</div>
                 <p className="pillarDesc">{e.desc}</p>
               </div>
@@ -434,9 +479,9 @@ export default function CoFounderPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {[
                   { icon: "🎓", title: "Industry-Relevant Curriculum", desc: "Built from real coaching experience, not textbook theory alone." },
-                  { icon: "🤝", title: "Mentorship-Led Learning", desc: "Every student gets direct access to educators who have done the work." },
-                  { icon: "📜", title: "Recognised Certification", desc: "Credentials that gyms, studios and clients can trust." },
-                  { icon: "🌐", title: "A Nationwide Network", desc: "Join a community of KPF alumni building careers across India." },
+                  { icon: "🤝", title: "Mentorship-Led Learning",       desc: "Every student gets direct access to educators who have done the work." },
+                  { icon: "📜", title: "Recognised Certification",      desc: "Credentials that gyms, studios and clients can trust." },
+                  { icon: "🌐", title: "A Nationwide Network",          desc: "Join a community of KPF alumni building careers across India." },
                 ].map((f) => (
                   <div key={f.title} className="featureBlock">
                     <div className="featureBlockIcon">{f.icon}</div>
@@ -455,7 +500,10 @@ export default function CoFounderPage() {
       {/* ══ FINAL CTA ══════════════════════════════════════════════ */}
       <section className="cta-strip" data-r>
         <div className="container">
-          <span className="section-label" style={{ justifyContent: "center", marginBottom: "1rem" }}>
+          <span
+            className="section-label"
+            style={{ justifyContent: "center", marginBottom: "1rem" }}
+          >
             Ready to Learn From the Best?
           </span>
           <h2 style={{ marginBottom: "1rem" }}>
