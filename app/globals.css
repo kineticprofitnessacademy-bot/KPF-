@@ -2099,9 +2099,9 @@ section {
     grid-template-columns: 1fr !important;
   }
 
-  .facultyImageWrap {
+  .facultyImageWrap:not(.hero-image) {
     transform: none !important;
-    height: 280px !important;
+    height: 380px !important;
   }
 
   .stats-row {

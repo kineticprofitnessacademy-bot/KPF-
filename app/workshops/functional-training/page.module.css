@@ -86,18 +86,19 @@
 /* ── HERO ── */
 .hero {
   position: relative;
-  height: 100vh;
-  min-height: 700px;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .heroBg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
 .heroBgImg {
@@ -130,6 +131,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0;
 }
 
 @keyframes heroFadeIn {
@@ -148,7 +150,7 @@
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 10vw, 8rem);
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 400;
   letter-spacing: 0.05em;
   line-height: 1;
@@ -228,10 +230,9 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  z-index: 2;
+  z-index: 1;
   animation: scrollBob 2.5s ease-in-out infinite;
 }
-
 @keyframes scrollBob {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50%       { transform: translateX(-50%) translateY(6px); }
@@ -1272,5 +1273,130 @@
   }
   .finalCtaTitle {
     font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+}
+.pricingBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 auto 1.5rem;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 320px;
+}
+
+.originalPrice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.strikethrough {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  text-decoration: line-through;
+}
+
+.discountBadge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #0a0a0a;
+  background: linear-gradient(135deg, #C9A84C, #E8C97A);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.offerPrice {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(201,168,76,0.4);
+}
+
+.timerLabel {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timerBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  min-width: 64px;
+}
+
+.timerNum {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.timerUnit {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.35);
+  margin-top: 2px;
+}
+
+.timerColon {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: rgba(201,168,76,0.5);
+  margin-bottom: 1rem;
+}
+
+.timerFormNote {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin: 0;
+}
+.scrollIndicator {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .scrollIndicator {
+    display: flex;
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+    animation: scrollBob 2.5s ease-in-out infinite;
+  }
+}
+@media (min-width: 641px) {
+  .pricingBox {
+    max-width: 300px;
+    margin: 0 auto 1.5rem;
   }
 }

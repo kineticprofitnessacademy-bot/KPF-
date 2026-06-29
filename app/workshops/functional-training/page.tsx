@@ -61,6 +61,17 @@ const faqs = [
 
 export default function WorkshopPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+useEffect(() => {
+  if (timeLeft <= 0) return;
+  const timer = setInterval(() => setTimeLeft(p => p - 1), 1000);
+  return () => clearInterval(timer);
+}, [timeLeft]);
+
+const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+const seconds = String(timeLeft % 60).padStart(2, '0');
+const isExpired = timeLeft <= 0;
   const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -154,9 +165,28 @@ export default function WorkshopPage() {
             <span className={styles.badge}>🏅 Certificate</span>
             <span className={styles.badge}>⚡ Limited Seats</span>
           </div>
-          <button className={styles.ctaPrimary} onClick={scrollToForm}>
-            Enroll Now — ₹499
-          </button>
+          <div className={styles.pricingBox}>
+  <div className={styles.originalPrice}>
+    <span className={styles.strikethrough}>₹3,999</span>
+    <span className={styles.discountBadge}>87% OFF</span>
+  </div>
+  <div className={styles.offerPrice}>₹499 Only</div>
+  <div className={styles.timerLabel}>⚡ Offer expires in</div>
+  <div className={styles.timer}>
+    <div className={styles.timerBlock}>
+      <span className={styles.timerNum}>{minutes}</span>
+      <span className={styles.timerUnit}>MIN</span>
+    </div>
+    <span className={styles.timerColon}>:</span>
+    <div className={styles.timerBlock}>
+      <span className={styles.timerNum}>{seconds}</span>
+      <span className={styles.timerUnit}>SEC</span>
+    </div>
+  </div>
+  <button className={styles.ctaPrimary} onClick={scrollToForm} disabled={isExpired}>
+    {isExpired ? 'Offer Expired' : 'Enroll Now — ₹499'}
+  </button>
+</div>
         </div>
         <div className={styles.scrollIndicator}>
           <span className={styles.scrollLine} />
@@ -409,9 +439,12 @@ export default function WorkshopPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
-              <button className={styles.ctaForm} type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Processing...' : 'Confirm Seat — ₹499'}
-              </button>
+             <button className={styles.ctaForm} type="submit" disabled={isSubmitting || isExpired}>
+  {isExpired ? 'Offer Expired' : isSubmitting ? 'Processing...' : 'Confirm Seat — ₹499'}
+</button>
+{!isExpired && (
+  <p className={styles.timerFormNote}>⏱ Offer ends in {minutes}:{seconds} — ₹3,999 after</p>
+)}
               <p className={styles.formNote}>Limited seats. First come, first served. No refunds.</p>
             </form>
           </div>
